@@ -192,6 +192,17 @@
     font-size: 0.8rem;
     margin-top: 0.5rem;
   }
+
+  @keyframes flash-highlight {
+    0%   { background: #fef08a; }
+    100% { background: transparent; }
+  }
+  .flash {
+    animation: flash-highlight 1.5s ease-out;
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin: -2px -4px;
+  }
 </style>
 </head>
 <body>
@@ -212,18 +223,18 @@
 <div class="lesson" data-lesson="0">
   <h2>Lesson 1 &mdash; Values and Principles of the UK</h2>
 
-  <h3>Fundamental Principles of British Life</h3>
+  <h3 id="L1-principles">Fundamental Principles of British Life</h3>
   <ul>
     <li>Individual liberty</li>
   </ul>
 
-  <h3>Responsibilities as a British Citizen</h3>
+  <h3 id="L1-responsibilities">Responsibilities as a British Citizen</h3>
   <ul>
     <li>Respect and obey the law</li>
     <li>Look after yourself and your family</li>
   </ul>
 
-  <h3>Freedoms the UK Offers</h3>
+  <h3 id="L1-freedoms">Freedoms the UK Offers</h3>
   <ul>
     <li>Freedom of speech</li>
     <li>Freedom of belief in religion</li>
@@ -236,7 +247,7 @@
 <div class="lesson" data-lesson="1">
   <h2>Lesson 2 &mdash; What Is the UK</h2>
 
-  <h3>The United Kingdom</h3>
+  <h3 id="L2-united-kingdom">The United Kingdom</h3>
   <ul>
     <li>Made up of <strong>4 countries</strong>: England, Scotland, Wales, Northern Ireland</li>
     <li>Full name: The United Kingdom of Great Britain and Northern Ireland</li>
@@ -244,13 +255,13 @@
     <li>Governed by Parliament sitting in Westminster (central London)</li>
   </ul>
 
-  <h3>Crown Dependencies (linked to UK but NOT part of the UK)</h3>
+  <h3 id="L2-crown-dependencies">Crown Dependencies (linked to UK but NOT part of the UK)</h3>
   <ul>
     <li>Channel Islands (in the English Channel between England and France)</li>
     <li>Isle of Man (island off the coast of England)</li>
   </ul>
 
-  <h3>British Overseas Territories (linked to UK but NOT part of the UK)</h3>
+  <h3 id="L2-overseas-territories">British Overseas Territories (linked to UK but NOT part of the UK)</h3>
   <ul>
     <li>Saint Helena (small island off the coast of Africa)</li>
     <li>Falkland Islands (off the coast of Argentina)</li>
@@ -263,7 +274,7 @@
 <div class="lesson" data-lesson="2">
   <h2>Lesson 3 &mdash; Early Britain</h2>
 
-  <h3>Stone Age</h3>
+  <h3 id="L3-stone-age">Stone Age</h3>
   <ul>
     <li>First people in Britain were hunter-gatherers</li>
     <li>Came via a land bridge connecting mainland Europe to Britain</li>
@@ -277,14 +288,14 @@
     </li>
   </ul>
 
-  <h3>Bronze Age (~4,000 years ago)</h3>
+  <h3 id="L3-bronze-age">Bronze Age (~4,000 years ago)</h3>
   <ul>
     <li>People started using bronze</li>
     <li>Lived in round houses</li>
     <li>Buried their dead in round barrows</li>
   </ul>
 
-  <h3>Iron Age</h3>
+  <h3 id="L3-iron-age">Iron Age</h3>
   <ul>
     <li>People made tools and weapons from iron</li>
     <li>First coins minted in Britain &mdash; inscribed with names of Iron Age kings</li>
@@ -293,7 +304,7 @@
     <li>Language spoken: Celtic</li>
   </ul>
 
-  <h3>Romans</h3>
+  <h3 id="L3-romans">Romans</h3>
   <ul>
     <li><strong>55 BC</strong>: Julius Caesar leads unsuccessful invasion</li>
     <li><strong>AD 43</strong>: Emperor Claudius leads successful invasion</li>
@@ -307,14 +318,14 @@
     <li><strong>AD 410</strong>: Romans leave Britain (after ~400 years)</li>
   </ul>
 
-  <h3>Anglo-Saxons</h3>
+  <h3 id="L3-anglo-saxons">Anglo-Saxons</h3>
   <ul>
     <li>After Romans left, Britain invaded by Jutes, Angles, and Saxons (from northern Europe)</li>
     <li>By AD 600: Anglo-Saxon kingdoms established</li>
     <li><strong>Sutton Hoo</strong>: famous burial place of an Anglo-Saxon king (buried with treasure and armor in a ship)</li>
   </ul>
 
-  <h3>Early Christian Missionaries</h3>
+  <h3 id="L3-missionaries">Early Christian Missionaries</h3>
   <ul>
     <li>Arrived in 3rd and 4th centuries to preach Christianity</li>
     <li>Three famous missionaries:
@@ -326,7 +337,7 @@
     </li>
   </ul>
 
-  <h3>Vikings (from AD 789)</h3>
+  <h3 id="L3-vikings">Vikings (from AD 789)</h3>
   <ul>
     <li>Came from Denmark, Norway, and Sweden</li>
     <li>Anglo-Saxons united under <strong>King Alfred the Great</strong>, who defeated the Vikings</li>
@@ -334,7 +345,7 @@
     <li>Danish kings briefly ruled England; first Danish king was <strong>Knut (Canute)</strong></li>
   </ul>
 
-  <h3>Norman Conquest (1066)</h3>
+  <h3 id="L3-norman-conquest">Norman Conquest (1066)</h3>
   <ul>
     <li>William, Duke of Normandy (from northern France) invades Britain</li>
     <li>Defeats King Harold at the <strong>Battle of Hastings</strong> in 1066</li>
@@ -349,7 +360,7 @@
 <div class="lesson" data-lesson="3">
   <h2>Lesson 4 &mdash; The Middle Ages</h2>
 
-  <h3>Wars and Conflicts</h3>
+  <h3 id="L4-wars">Wars and Conflicts</h3>
   <ul>
     <li><strong>Wales</strong>: 1284 &mdash; English annexed Wales under the Statute of Rhuddlan</li>
     <li><strong>Scotland</strong>: 1314 &mdash; Robert the Bruce defeated the English at the Battle of Bannockburn</li>
@@ -364,21 +375,21 @@
     </li>
   </ul>
 
-  <h3>Feudalism</h3>
+  <h3 id="L4-feudalism">Feudalism</h3>
   <ul>
     <li>System established by the Normans</li>
     <li>King &rarr; Lords (given land in return for help in war) &rarr; Serfs (peasants who worked the land)</li>
     <li>Serfs = regular peasants who worked for their lord and fought when the king requested</li>
   </ul>
 
-  <h3>The Black Death (1348)</h3>
+  <h3 id="L4-black-death">The Black Death (1348)</h3>
   <ul>
     <li>A plague that killed around <strong>one third</strong> of the population</li>
     <li>Led to labour shortages &rarr; peasants demanded higher wages</li>
     <li>Resulted in emergence of a middle class and large landowners called "gentry"</li>
   </ul>
 
-  <h3>Legal and Political Changes</h3>
+  <h3 id="L4-legal">Legal and Political Changes</h3>
   <ul>
     <li><strong>Magna Carta</strong> (1215) = "Great Charter"
       <ul>
@@ -397,7 +408,7 @@
     <li>Scottish law: Codified (written down)</li>
   </ul>
 
-  <h3>Language and Culture</h3>
+  <h3 id="L4-language">Language and Culture</h3>
   <ul>
     <li>Anglo-Saxon (peasants) + Norman French (king and nobles) = Modern English</li>
     <li>By 1400: English used in official documents, royal court, and parliament</li>
@@ -413,7 +424,7 @@
 <div class="lesson" data-lesson="4">
   <h2>Lesson 5 &mdash; The Tudors and Stuarts</h2>
 
-  <h3>Wars of the Roses (1455&ndash;1485)</h3>
+  <h3 id="L5-wars-of-roses">Wars of the Roses (1455&ndash;1485)</h3>
   <ul>
     <li>Civil war over who should be king of England</li>
     <li>House of Lancaster (red rose) led by Henry Tudor vs House of York (white rose) led by Richard III</li>
@@ -423,7 +434,7 @@
     <li>Tudor Rose = red (Lancaster) + white (York)</li>
   </ul>
 
-  <h3>Henry VIII</h3>
+  <h3 id="L5-henry-viii">Henry VIII</h3>
   <ul>
     <li>Son of Henry VII</li>
     <li>Broke away from the Church of Rome (Pope refused divorce from first wife)</li>
@@ -441,27 +452,27 @@
     <li>During his reign: Wales formally united with England (Act of Government of Wales)</li>
   </ul>
 
-  <h3>The Reformation</h3>
+  <h3 id="L5-reformation">The Reformation</h3>
   <ul>
     <li>Movement across Europe against the authority of the Pope and Roman Catholic Church</li>
     <li>Protestants: formed own churches, read Bible in own language, believed personal relationship with God more important than church authority</li>
     <li>English tried to impose Protestant ideas in Ireland &rarr; led to rebellion</li>
   </ul>
 
-  <h3>Edward VI</h3>
+  <h3 id="L5-edward-vi">Edward VI</h3>
   <ul>
     <li>Son of Henry VIII, died age 15, short reign (6 years)</li>
     <li>Introduced the <strong>Book of Common Prayer</strong> (Church of England, still used today)</li>
   </ul>
 
-  <h3>Bloody Mary (Mary I)</h3>
+  <h3 id="L5-bloody-mary">Bloody Mary (Mary I)</h3>
   <ul>
     <li>Half-sister of Edward VI, devout Catholic</li>
     <li>Persecuted Protestants (hence nickname "Bloody Mary")</li>
     <li>Short reign</li>
   </ul>
 
-  <h3>Elizabeth I</h3>
+  <h3 id="L5-elizabeth-i">Elizabeth I</h3>
   <ul>
     <li>Protestant, very successful monarch</li>
     <li>Balanced Catholic and extreme Protestant views (avoided serious religious conflict)</li>
@@ -476,7 +487,7 @@
 
   <div class="key-point">Tudor Succession: Henry VII &rarr; Henry VIII &rarr; Edward VI &rarr; Bloody Mary &rarr; Elizabeth I</div>
 
-  <h3>Mary Queen of Scots (Mary Stuart)</h3>
+  <h3 id="L5-mary-queen-scots">Mary Queen of Scots (Mary Stuart)</h3>
   <ul>
     <li>Catholic, crowned queen at one week old</li>
     <li>Spent most of her childhood in France</li>
@@ -485,7 +496,7 @@
     <li>Imprisoned for 20 years by Elizabeth I, then executed (accused of plotting for English throne)</li>
   </ul>
 
-  <h3>James I of England (James VI of Scotland)</h3>
+  <h3 id="L5-james-i">James I of England (James VI of Scotland)</h3>
   <ul>
     <li>Son of Mary Queen of Scots, cousin of Elizabeth I</li>
     <li>Elizabeth I had no children &rarr; James became king of both England and Scotland</li>
@@ -494,28 +505,28 @@
     <li>Believed in the Divine Right of Kings (king appointed by God, no need for Parliament approval)</li>
   </ul>
 
-  <h3>Ireland during Tudor/Stuart Period</h3>
+  <h3 id="L5-ireland">Ireland during Tudor/Stuart Period</h3>
   <ul>
     <li>Henry VIII took title "King of Ireland", extended control beyond the Pale</li>
     <li>Rebellions against Protestant/English rule under Elizabeth I and James I</li>
     <li><strong>Plantations</strong>: English and Scottish Protestants settled in Ulster (northern Ireland), took land from Catholic landowners</li>
   </ul>
 
-  <h3>Charles I</h3>
+  <h3 id="L5-charles-i">Charles I</h3>
   <ul>
     <li>Son of James I, also believed in Divine Right of Kings</li>
     <li>Ruled without Parliament for 11 years</li>
     <li>Puritans: strict Protestants who disagreed with Charles's religious views</li>
   </ul>
 
-  <h3>English Civil War</h3>
+  <h3 id="L5-civil-war">English Civil War</h3>
   <ul>
     <li><strong>Cavaliers</strong> (supporters of the King) vs <strong>Roundheads</strong> (supporters of Parliament)</li>
     <li>Charles I defeated at Battle of Marston Moor and Battle of Naseby</li>
     <li>Charles I executed in 1649</li>
   </ul>
 
-  <h3>The Commonwealth (Republic)</h3>
+  <h3 id="L5-commonwealth">The Commonwealth (Republic)</h3>
   <ul>
     <li>England declared a republic after Charles I's execution</li>
     <li>Scotland declared Charles II (son of Charles I) as their king</li>
@@ -524,7 +535,7 @@
     <li><strong>Oliver Cromwell</strong>: general who defeated Charles II, given title Lord Protector</li>
   </ul>
 
-  <h3>The Restoration (1660)</h3>
+  <h3 id="L5-restoration">The Restoration (1660)</h3>
   <ul>
     <li>After 11 years as republic + death of Cromwell, people wanted a king again</li>
     <li>Parliament invites Charles II back from exile to be king</li>
@@ -532,7 +543,7 @@
 
   <div class="note">Restoration (re-establishing monarchy) is NOT the same as Reformation (movement against the Pope).</div>
 
-  <h3>During Charles II's Reign</h3>
+  <h3 id="L5-charles-ii">During Charles II's Reign</h3>
   <ul>
     <li>1665: Major plague in London</li>
     <li>1666: Great Fire of London</li>
@@ -545,7 +556,7 @@
     </li>
   </ul>
 
-  <h3>The Glorious Revolution</h3>
+  <h3 id="L5-glorious-revolution">The Glorious Revolution</h3>
   <ul>
     <li>Charles II had no legitimate children &rarr; brother James II (Catholic) becomes king</li>
     <li>James favoured Catholics, causing unrest</li>
@@ -562,7 +573,7 @@
 <div class="lesson" data-lesson="5">
   <h2>Lesson 6 &mdash; Arts and Culture</h2>
 
-  <h3>Music</h3>
+  <h3 id="L6-music">Music</h3>
   <ul>
     <li><strong>The Proms</strong>: 8-week summer season of orchestral classical music, organized by the BBC</li>
     <li>Major outdoor music festivals: Glastonbury, Isle of Wight, Creamfields</li>
@@ -570,7 +581,7 @@
     <li><strong>Brit Awards</strong>: annual awards covering a range of music categories</li>
   </ul>
 
-  <h3>Theatre</h3>
+  <h3 id="L6-theatre">Theatre</h3>
   <ul>
     <li><strong>Theatreland</strong>: area in London's West End with many theatres</li>
     <li><strong>Gilbert and Sullivan</strong>: famous for writing comic operas (made fun of popular culture and politics)</li>
@@ -579,13 +590,13 @@
     <li><strong>Laurence Olivier Awards</strong>: annual award for variety of theatre categories</li>
   </ul>
 
-  <h3>Art</h3>
+  <h3 id="L6-art">Art</h3>
   <ul>
     <li>Famous London galleries: National Gallery, Tate Britain, Tate Modern</li>
     <li><strong>Turner Prize</strong>: annual award for contemporary art at Tate Britain</li>
   </ul>
 
-  <h3>Architecture</h3>
+  <h3 id="L6-architecture">Architecture</h3>
   <ul>
     <li>Gothic style: famous buildings include Houses of Parliament and St Pancras Station</li>
     <li><strong>Sir Edwin Lutyens</strong>: famous British architect
@@ -597,7 +608,7 @@
     <li><strong>Chelsea Flower Show</strong>: showcases garden design from Britain and around the world</li>
   </ul>
 
-  <h3>Literature</h3>
+  <h3 id="L6-literature">Literature</h3>
   <ul>
     <li>Several British writers have won the Nobel Prize in Literature</li>
     <li><strong>Man Booker Prize</strong>: awarded for best fiction novel by author from the Commonwealth, Ireland, or Zimbabwe</li>
@@ -661,9 +672,32 @@ panels.forEach((panel, i) => {
 });
 
 // Init from hash or default to first
-const hash = location.hash.match(/lesson-(\d+)/);
-const startIdx = hash ? lessons.findIndex(l => l.short === hash[1]) : 0;
-show(startIdx >= 0 ? startIdx : 0);
+const hash = location.hash.slice(1);
+let startIdx = 0;
+if (hash) {
+  const lessonMatch = hash.match(/^lesson-(\d+)$/);
+  const sectionMatch = hash.match(/^L(\d+)-/);
+  if (lessonMatch) {
+    const found = lessons.findIndex(l => l.short === lessonMatch[1]);
+    if (found >= 0) startIdx = found;
+  } else if (sectionMatch) {
+    const found = lessons.findIndex(l => l.short === sectionMatch[1]);
+    if (found >= 0) startIdx = found;
+  }
+}
+show(startIdx);
+
+// After showing lesson, scroll to and flash the target section
+if (hash && !hash.match(/^lesson-/)) {
+  requestAnimationFrame(() => {
+    const target = document.getElementById(hash);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("flash");
+      target.addEventListener("animationend", () => target.classList.remove("flash"), { once: true });
+    }
+  });
+}
 
 // Keyboard navigation
 document.addEventListener("keydown", (e) => {
