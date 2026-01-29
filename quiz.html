@@ -668,7 +668,7 @@ function showNext() {
   if (pool.length === 0) { showSummary(); return; }
   current = pool.pop();
 
-  document.getElementById("lessonTag").textContent = "Lesson " + current.lesson + " \u2014 " + lessonNames[current.lesson];
+  document.getElementById("lessonTag").style.display = "none";
   document.getElementById("questionNum").textContent = "Question " + (answered + 1) + " of " + totalQ;
   document.getElementById("questionText").textContent = current.q;
 
