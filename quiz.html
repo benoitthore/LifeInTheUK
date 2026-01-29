@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life in the UK - Quiz</title>
+<style>
+  :root {
+    --navy: #1b2a4a;
+    --red: #c8102e;
+    --white: #fff;
+    --light: #f4f5f7;
+    --text: #2c2c2c;
+    --muted: #6b7280;
+    --green: #16a34a;
+    --green-bg: #dcfce7;
+    --red-bg: #fee2e2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--light);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: 0.02em; }
+  header h1 span { color: var(--red); }
+  .top-nav { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.75rem; }
+  .top-nav a {
+    color: var(--white); text-decoration: none; padding: 0.3rem 1rem;
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 5px; font-size: 0.8rem;
+    transition: all 0.15s ease;
+  }
+  .top-nav a:hover { background: rgba(255,255,255,0.15); }
+  .top-nav a.active { background: var(--red); border-color: var(--red); }
+  main { max-width: 700px; margin: 1.5rem auto 3rem; padding: 0 1rem; }
+  .card {
+    background: var(--white); border-radius: 10px; padding: 2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .lesson-tag {
+    display: inline-block; font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em; color: var(--white);
+    background: var(--navy); padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 1rem;
+  }
+  .question-num { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.25rem; }
+  .question {
+    font-size: 1.15rem; font-weight: 600; color: var(--navy);
+    margin-bottom: 1.5rem; line-height: 1.5;
+  }
+  .answers { display: flex; flex-direction: column; gap: 0.6rem; }
+  .answer-btn {
+    display: block; width: 100%; text-align: left; padding: 0.85rem 1.2rem;
+    border: 2px solid #e5e7eb; background: var(--white); border-radius: 8px;
+    cursor: pointer; font-size: 0.95rem; color: var(--text);
+    transition: all 0.15s ease; line-height: 1.4;
+  }
+  .answer-btn:hover:not(:disabled) { border-color: var(--navy); background: #f0f4ff; }
+  .answer-btn.correct { border-color: var(--green); background: var(--green-bg); color: #15803d; font-weight: 500; }
+  .answer-btn.wrong { border-color: var(--red); background: var(--red-bg); color: #b91c1c; }
+  .answer-btn:disabled { cursor: default; opacity: 0.65; }
+  .answer-btn.correct:disabled, .answer-btn.wrong:disabled { opacity: 1; }
+  .feedback {
+    margin-top: 1.25rem; padding: 0.75rem 1rem; border-radius: 8px;
+    font-size: 0.9rem; font-weight: 500; display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: var(--green-bg); color: #15803d; border-left: 4px solid var(--green); }
+  .feedback.wrong { background: var(--red-bg); color: #b91c1c; border-left: 4px solid var(--red); }
+  .next-btn {
+    display: none; margin-top: 1.5rem; padding: 0.65rem 2rem; border: none;
+    background: var(--navy); color: var(--white); border-radius: 6px; cursor: pointer;
+    font-size: 0.9rem; font-weight: 500; transition: background 0.15s ease; width: 100%;
+  }
+  .next-btn:hover { background: var(--red); }
+  .next-btn.show { display: block; }
+  .score-bar {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem; background: #f8fafc; border-radius: 8px;
+    font-size: 0.85rem; color: var(--muted);
+  }
+  .score-bar .score { font-weight: 700; color: var(--navy); font-size: 1rem; }
+  .progress-track { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.3s ease; width: 0%; }
+  .streak { font-size: 0.8rem; color: var(--muted); }
+  .streak strong { color: var(--red); }
+  .filter-bar { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .filter-btn {
+    padding: 0.3rem 0.7rem; border: 1.5px solid #d1d5db; background: var(--white);
+    border-radius: 5px; cursor: pointer; font-size: 0.75rem; font-weight: 500;
+    color: var(--muted); transition: all 0.15s ease;
+  }
+  .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .filter-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .summary-card { text-align: center; padding: 3rem 2rem; }
+  .summary-card h2 { font-size: 1.5rem; color: var(--navy); margin-bottom: 0.5rem; }
+  .summary-card .big-score { font-size: 3rem; font-weight: 800; color: var(--green); margin: 1rem 0; }
+  .summary-card .big-score.low { color: var(--red); }
+  .summary-card .big-score.mid { color: #f59e0b; }
+  .summary-card p { color: var(--muted); margin-bottom: 1.5rem; }
+  .restart-btn {
+    padding: 0.7rem 2.5rem; border: none; background: var(--navy); color: var(--white);
+    border-radius: 6px; cursor: pointer; font-size: 0.95rem; font-weight: 500;
+    transition: background 0.15s ease;
+  }
+  .restart-btn:hover { background: var(--red); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Life in the <span>UK</span> &mdash; Quiz</h1>
+  <div class="top-nav">
+    <a href="index.html">Study Notes</a>
+    <a href="quiz.html" class="active">Random Quiz</a>
+  </div>
+</header>
+
+<main>
+  <div class="filter-bar" id="filters"></div>
+  <div class="score-bar" id="scoreBar">
+    <span class="score" id="scoreText">0 / 0</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="streak" id="streakText"></span>
+  </div>
+  <div class="card" id="card">
+    <span class="lesson-tag" id="lessonTag"></span>
+    <div class="question-num" id="questionNum"></div>
+    <div class="question" id="questionText"></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn">Next Question</button>
+  </div>
+</main>
+
+<script>
+const questions = [
+
+  // ===== LESSON 1: VALUES AND PRINCIPLES =====
+  { lesson: 1, q: "Which of the following is a fundamental principle of British life?",
+    correct: "Individual liberty", wrong: ["Collective ownership", "Military service", "State religion"] },
+  { lesson: 1, q: "What is a responsibility of every British citizen?",
+    correct: "Respect and obey the law", wrong: ["Serve in the armed forces", "Attend a place of worship", "Vote in every election"] },
+  { lesson: 1, q: "Which of these is a responsibility of a UK citizen?",
+    correct: "Look after yourself and your family", wrong: ["Report your neighbours' activities", "Donate to charity every month", "Attend political rallies"] },
+  { lesson: 1, q: "Which freedom is offered to people living in the UK?",
+    correct: "Freedom of speech", wrong: ["Freedom from taxation", "Freedom to ignore the law", "Freedom from education"] },
+  { lesson: 1, q: "Which of these freedoms does the UK offer?",
+    correct: "Freedom of belief in religion", wrong: ["Freedom from paying taxes", "Freedom to carry weapons", "Freedom from jury duty"] },
+
+  // ===== LESSON 2: WHAT IS THE UK =====
+  { lesson: 2, q: "How many countries make up the United Kingdom?",
+    correct: "4", wrong: ["3", "5", "2"] },
+  { lesson: 2, q: "Which countries make up the United Kingdom?",
+    correct: "England, Scotland, Wales, and Northern Ireland", wrong: ["England, Scotland, Wales, and Ireland", "England, Scotland, and Wales", "England and Scotland"] },
+  { lesson: 2, q: "What is the full official name of the UK?",
+    correct: "The United Kingdom of Great Britain and Northern Ireland", wrong: ["The United Kingdom of England and Scotland", "The Kingdom of Great Britain", "The British Isles"] },
+  { lesson: 2, q: "Which of these is NOT part of Great Britain?",
+    correct: "Northern Ireland", wrong: ["England", "Scotland", "Wales"] },
+  { lesson: 2, q: "What does 'Great Britain' refer to?",
+    correct: "England, Scotland, and Wales", wrong: ["The entire United Kingdom", "England and Wales only", "England, Scotland, Wales, and Northern Ireland"] },
+  { lesson: 2, q: "Where does the UK Parliament sit?",
+    correct: "Westminster, central London", wrong: ["Edinburgh", "Cardiff", "Belfast"] },
+  { lesson: 2, q: "Which of these is a Crown dependency?",
+    correct: "Channel Islands", wrong: ["Northern Ireland", "Falkland Islands", "Saint Helena"] },
+  { lesson: 2, q: "Which of these is a Crown dependency?",
+    correct: "Isle of Man", wrong: ["Scotland", "Falkland Islands", "Saint Helena"] },
+  { lesson: 2, q: "Where are the Channel Islands located?",
+    correct: "In the English Channel between England and France", wrong: ["Off the coast of Scotland", "In the Irish Sea", "In the North Sea"] },
+  { lesson: 2, q: "Where is the Isle of Man?",
+    correct: "Off the coast of England, in the Irish Sea", wrong: ["In the English Channel", "Off the coast of Scotland", "Near the Falkland Islands"] },
+  { lesson: 2, q: "Are Crown dependencies part of the United Kingdom?",
+    correct: "No, they are linked to the UK but not part of it", wrong: ["Yes, they are full members", "Yes, but only for trade purposes", "They became part of the UK in 1945"] },
+  { lesson: 2, q: "Which of these is a British overseas territory?",
+    correct: "Falkland Islands", wrong: ["Isle of Man", "Channel Islands", "Wales"] },
+  { lesson: 2, q: "Which of these is a British overseas territory?",
+    correct: "Saint Helena", wrong: ["Isle of Man", "Channel Islands", "Scotland"] },
+  { lesson: 2, q: "Where are the Falkland Islands?",
+    correct: "Off the coast of Argentina", wrong: ["Off the coast of Africa", "In the English Channel", "In the North Sea"] },
+  { lesson: 2, q: "Are British overseas territories part of the UK?",
+    correct: "No, they are linked to the UK but not part of it", wrong: ["Yes, they have full representation in Parliament", "Yes, since 1945", "Only the Falkland Islands are"] },
+
+  // ===== LESSON 3: EARLY BRITAIN =====
+  { lesson: 3, q: "What were the first people to live in Britain?",
+    correct: "Hunter-gatherers", wrong: ["Farmers", "Romans", "Vikings"] },
+  { lesson: 3, q: "How did the first people arrive in Britain?",
+    correct: "Via a land bridge from mainland Europe", wrong: ["By boat from Scandinavia", "By raft from Ireland", "By crossing the Mediterranean"] },
+  { lesson: 3, q: "When was Britain permanently separated from mainland Europe by the Channel?",
+    correct: "About 10,000 years ago", wrong: ["About 6,000 years ago", "About 4,000 years ago", "About 20,000 years ago"] },
+  { lesson: 3, q: "When did the first farmers arrive in Britain?",
+    correct: "About 6,000 years ago", wrong: ["About 10,000 years ago", "About 4,000 years ago", "About 2,000 years ago"] },
+  { lesson: 3, q: "Where did the first farmers in Britain most likely come from?",
+    correct: "Southeast Europe", wrong: ["Scandinavia", "North Africa", "Central Asia"] },
+  { lesson: 3, q: "Where is Stonehenge located?",
+    correct: "Wiltshire, England", wrong: ["Orkney, Scotland", "Cornwall, England", "Pembrokeshire, Wales"] },
+  { lesson: 3, q: "What was Stonehenge used for?",
+    correct: "Seasonal ceremonies", wrong: ["Royal burials", "Military defence", "Grain storage"] },
+  { lesson: 3, q: "Where is Skara Brae?",
+    correct: "On Orkney, off the coast of mainland Scotland", wrong: ["Wiltshire, England", "Normandy, France", "Isle of Man"] },
+  { lesson: 3, q: "What is Skara Brae?",
+    correct: "A well-preserved prehistoric Stone Age village", wrong: ["A Roman fort", "An Iron Age hill fort", "A Viking settlement"] },
+  { lesson: 3, q: "What type of houses did Bronze Age people live in?",
+    correct: "Round houses", wrong: ["Stone castles", "Wooden longhouses", "Cave dwellings"] },
+  { lesson: 3, q: "What did Bronze Age people bury their dead in?",
+    correct: "Round barrows", wrong: ["Stone circles", "Hill forts", "Wooden ships"] },
+  { lesson: 3, q: "What were the first coins minted in Britain inscribed with?",
+    correct: "Names of Iron Age kings", wrong: ["Roman emperors", "Celtic symbols", "Religious texts"] },
+  { lesson: 3, q: "What is Maiden Castle?",
+    correct: "An Iron Age hill fort", wrong: ["A Roman temple", "A Stone Age monument", "A Viking settlement"] },
+  { lesson: 3, q: "What language was spoken during the Iron Age in Britain?",
+    correct: "Celtic", wrong: ["Latin", "Anglo-Saxon", "Norse"] },
+  { lesson: 3, q: "What type of dwellings did Iron Age people live in?",
+    correct: "Round houses grouped into hill forts", wrong: ["Stone castles", "Underground caves", "Wooden longhouses"] },
+  { lesson: 3, q: "When did Julius Caesar first attempt to invade Britain?",
+    correct: "55 BC", wrong: ["AD 43", "AD 410", "100 BC"] },
+  { lesson: 3, q: "Was Julius Caesar's invasion of Britain successful?",
+    correct: "No, it was unsuccessful", wrong: ["Yes, he conquered all of Britain", "Yes, but only southern England", "Yes, but he left after one year"] },
+  { lesson: 3, q: "Which Roman emperor successfully invaded Britain in AD 43?",
+    correct: "Emperor Claudius", wrong: ["Julius Caesar", "Emperor Hadrian", "Emperor Nero"] },
+  { lesson: 3, q: "Who was Boudicca?",
+    correct: "A tribal leader who rebelled against the Romans", wrong: ["A Roman empress", "A Viking queen", "A Christian missionary"] },
+  { lesson: 3, q: "Where is the statue of Boudicca located?",
+    correct: "On Westminster Bridge, by the Houses of Parliament", wrong: ["In Edinburgh Castle", "At Stonehenge", "At Hadrian's Wall"] },
+  { lesson: 3, q: "Why was Hadrian's Wall built?",
+    correct: "To keep out the Picts, ancestors of the Scottish people", wrong: ["To mark the border with Wales", "To protect London", "To stop Viking invasions"] },
+  { lesson: 3, q: "Which forts on Hadrian's Wall can still be seen today?",
+    correct: "Housesteads and Vindolanda", wrong: ["Camulodunum and Londinium", "Maiden Castle and Skara Brae", "Stonehenge and Avebury"] },
+  { lesson: 3, q: "What did the Romans introduce to Britain?",
+    correct: "Roads, public buildings, law, new plants and animals", wrong: ["The feudal system", "Christianity", "The printing press"] },
+  { lesson: 3, q: "When did the Romans leave Britain?",
+    correct: "AD 410", wrong: ["AD 43", "55 BC", "AD 600"] },
+  { lesson: 3, q: "Approximately how long did the Romans stay in Britain?",
+    correct: "About 400 years", wrong: ["About 100 years", "About 200 years", "About 600 years"] },
+  { lesson: 3, q: "Which peoples invaded Britain after the Romans left?",
+    correct: "Jutes, Angles, and Saxons", wrong: ["Vikings and Normans", "Celts and Gauls", "Romans and Greeks"] },
+  { lesson: 3, q: "Where did the Jutes, Angles, and Saxons come from?",
+    correct: "Northern Europe", wrong: ["Southern France", "The Mediterranean", "Scandinavia only"] },
+  { lesson: 3, q: "By when were Anglo-Saxon kingdoms established in Britain?",
+    correct: "By AD 600", wrong: ["By AD 410", "By AD 789", "By AD 1066"] },
+  { lesson: 3, q: "What is Sutton Hoo?",
+    correct: "The burial place of an Anglo-Saxon king, buried in a ship with treasure", wrong: ["A Roman fort on Hadrian's Wall", "A Stone Age village in Scotland", "A Viking harbour in York"] },
+  { lesson: 3, q: "When did early Christian missionaries arrive in Britain?",
+    correct: "In the 3rd and 4th centuries", wrong: ["In the 1st century", "In the 6th century", "In the 8th century"] },
+  { lesson: 3, q: "Which of these was an early Christian missionary to Britain?",
+    correct: "Saint Patrick", wrong: ["King Alfred", "William the Conqueror", "Julius Caesar"] },
+  { lesson: 3, q: "Which of these was an early Christian missionary to Britain?",
+    correct: "Saint Columba", wrong: ["Boudicca", "King Canute", "Emperor Claudius"] },
+  { lesson: 3, q: "Who became the first Archbishop of Canterbury?",
+    correct: "Saint Augustine", wrong: ["Saint Patrick", "Saint Columba", "Saint George"] },
+  { lesson: 3, q: "Where did Saint Augustine come from?",
+    correct: "Rome", wrong: ["Ireland", "France", "Spain"] },
+  { lesson: 3, q: "Where did Saint Patrick and Saint Columba come from?",
+    correct: "Ireland", wrong: ["Rome", "France", "Scotland"] },
+  { lesson: 3, q: "Where did the Vikings come from?",
+    correct: "Denmark, Norway, and Sweden", wrong: ["France and Germany", "Spain and Portugal", "Italy and Greece"] },
+  { lesson: 3, q: "When did Viking raids on Britain begin?",
+    correct: "AD 789", wrong: ["AD 410", "AD 600", "AD 1066"] },
+  { lesson: 3, q: "Who united the Anglo-Saxons to defeat the Vikings?",
+    correct: "King Alfred the Great", wrong: ["King Harold", "King William", "King Canute"] },
+  { lesson: 3, q: "Under whom did the people of northern Britain unite, leading to the use of the term 'Scotland'?",
+    correct: "Kenneth MacAlpin", wrong: ["King Alfred the Great", "Robert the Bruce", "William Wallace"] },
+  { lesson: 3, q: "Who was the first Danish king of England?",
+    correct: "Knut (Canute)", wrong: ["King Alfred", "King Harold", "Kenneth MacAlpin"] },
+  { lesson: 3, q: "When was the Battle of Hastings?",
+    correct: "1066", wrong: ["1215", "1314", "AD 410"] },
+  { lesson: 3, q: "Who won the Battle of Hastings?",
+    correct: "William, Duke of Normandy", wrong: ["King Harold", "King Alfred", "King Canute"] },
+  { lesson: 3, q: "Where did William the Conqueror come from?",
+    correct: "Normandy, in northern France", wrong: ["Denmark", "Rome", "Spain"] },
+  { lesson: 3, q: "What was the last successful foreign invasion of Britain?",
+    correct: "The Norman Conquest in 1066", wrong: ["The Viking raids in AD 789", "The Roman invasion in AD 43", "The Spanish Armada in 1588"] },
+  { lesson: 3, q: "What is the Bayeux Tapestry?",
+    correct: "An embroidery about 70 metres long commemorating the Battle of Hastings", wrong: ["A Roman mosaic found in London", "A Viking map of Britain", "A medieval painting of Canterbury"] },
+  { lesson: 3, q: "Where is the Bayeux Tapestry today?",
+    correct: "In France", wrong: ["In the British Museum, London", "In Edinburgh Castle", "In Canterbury Cathedral"] },
+  { lesson: 3, q: "What was the Domesday Book?",
+    correct: "A record listing people, land, and animals they owned", wrong: ["A religious text brought by missionaries", "A code of Anglo-Saxon laws", "A Viking saga about Britain"] },
+
+  // ===== LESSON 4: THE MIDDLE AGES =====
+  { lesson: 4, q: "In what year was Wales annexed by England?",
+    correct: "1284", wrong: ["1066", "1314", "1215"] },
+  { lesson: 4, q: "Under which statute was Wales annexed by England?",
+    correct: "The Statute of Rhuddlan", wrong: ["The Magna Carta", "The Act of Union", "The Domesday Book"] },
+  { lesson: 4, q: "Who defeated the English at the Battle of Bannockburn in 1314?",
+    correct: "Robert the Bruce", wrong: ["William Wallace", "Kenneth MacAlpin", "Henry V"] },
+  { lesson: 4, q: "What was 'the Pale' in medieval Ireland?",
+    correct: "The area around Dublin ruled by the English", wrong: ["A fortified castle in Belfast", "The border between Scotland and England", "A region controlled by the Vikings"] },
+  { lesson: 4, q: "By what year had the English established rule in the Pale?",
+    correct: "By 1200", wrong: ["By 1066", "By 1348", "By 1485"] },
+  { lesson: 4, q: "What were the Crusades?",
+    correct: "Wars for control of the Holy Land", wrong: ["Wars between England and France", "Wars between England and Scotland", "Wars between Catholics and Protestants"] },
+  { lesson: 4, q: "How long did the Hundred Years War actually last?",
+    correct: "116 years", wrong: ["100 years", "150 years", "85 years"] },
+  { lesson: 4, q: "Which English king won the Battle of Agincourt?",
+    correct: "Henry V", wrong: ["Henry VIII", "Edward III", "Richard III"] },
+  { lesson: 4, q: "Who did England fight in the Hundred Years War?",
+    correct: "France", wrong: ["Scotland", "Spain", "The Holy Roman Empire"] },
+  { lesson: 4, q: "Who established the feudal system in England?",
+    correct: "The Normans", wrong: ["The Romans", "The Anglo-Saxons", "The Vikings"] },
+  { lesson: 4, q: "In feudalism, what were serfs?",
+    correct: "Peasants who worked for their lord and fought when the king requested", wrong: ["Wealthy merchants", "Religious leaders", "Knights who served the king directly"] },
+  { lesson: 4, q: "What was feudalism?",
+    correct: "A system where the king gave land to lords in exchange for military support", wrong: ["A democratic voting system", "A form of religious governance", "A trade agreement between nations"] },
+  { lesson: 4, q: "When did the Black Death arrive in Britain?",
+    correct: "1348", wrong: ["1066", "1215", "1485"] },
+  { lesson: 4, q: "What proportion of the population was killed by the Black Death?",
+    correct: "About one third", wrong: ["About half", "About one quarter", "About one tenth"] },
+  { lesson: 4, q: "What was a key result of the Black Death?",
+    correct: "Labour shortages led peasants to demand higher wages", wrong: ["The king gained more power", "The Church lost all influence", "Britain was invaded by France"] },
+  { lesson: 4, q: "What new social class emerged after the Black Death?",
+    correct: "A middle class and large landowners called 'gentry'", wrong: ["A military class called 'knights'", "A religious class called 'clergy'", "A merchant class called 'burghers'"] },
+  { lesson: 4, q: "When was the Magna Carta signed?",
+    correct: "1215", wrong: ["1066", "1348", "1485"] },
+  { lesson: 4, q: "What does 'Magna Carta' mean?",
+    correct: "Great Charter", wrong: ["Great Law", "King's Decree", "Royal Agreement"] },
+  { lesson: 4, q: "What did the Magna Carta establish?",
+    correct: "That even the king was subject to the law", wrong: ["That Parliament must meet every year", "That all men could vote", "That the Church controlled the state"] },
+  { lesson: 4, q: "Who pressured the king to accept the Magna Carta?",
+    correct: "Noblemen", wrong: ["The Church", "Peasants", "Foreign invaders"] },
+  { lesson: 4, q: "How many houses did the English Parliament develop?",
+    correct: "Two: House of Lords and House of Commons", wrong: ["Three: Lords, Commons, and Clergy", "One: the House of Lords", "Four separate houses"] },
+  { lesson: 4, q: "Who sat in the House of Lords?",
+    correct: "Lords, bishops, and great landowners", wrong: ["Knights and small landowners", "Wealthy townspeople and merchants", "Clergy and monks"] },
+  { lesson: 4, q: "Who sat in the House of Commons?",
+    correct: "Knights, small landowners, and wealthy townspeople", wrong: ["Lords, bishops, and great landowners", "Peasants and serfs", "Only the clergy"] },
+  { lesson: 4, q: "How many houses did the Scottish Parliament have?",
+    correct: "Three: Lords, Commons, and Clergy", wrong: ["Two: Lords and Commons", "One: the House of Lords", "Four separate houses"] },
+  { lesson: 4, q: "What is English common law based on?",
+    correct: "Precedent (following previous court decisions)", wrong: ["Written codes", "Royal decree", "Religious texts"] },
+  { lesson: 4, q: "How was Scottish law different from English law?",
+    correct: "Scottish law was codified (written down)", wrong: ["Scottish law was based on precedent", "Scottish law was based on Viking tradition", "Scottish law was controlled by the Church"] },
+  { lesson: 4, q: "What two languages combined to form modern English?",
+    correct: "Anglo-Saxon and Norman French", wrong: ["Latin and Celtic", "Norse and Celtic", "Latin and Anglo-Saxon"] },
+  { lesson: 4, q: "By what year was English used in official documents, the royal court, and Parliament?",
+    correct: "By 1400", wrong: ["By 1066", "By 1215", "By 1500"] },
+  { lesson: 4, q: "What language did people in Scotland continue to speak?",
+    correct: "Gaelic", wrong: ["Latin", "Norman French", "Norse"] },
+  { lesson: 4, q: "Who wrote The Canterbury Tales?",
+    correct: "Geoffrey Chaucer", wrong: ["William Shakespeare", "John Barbour", "William Caxton"] },
+  { lesson: 4, q: "What are The Canterbury Tales about?",
+    correct: "Poems about pilgrims traveling to Canterbury", wrong: ["The history of the Norman Conquest", "The life of King Arthur", "The Battle of Bannockburn"] },
+  { lesson: 4, q: "Who first used the printing press in England?",
+    correct: "William Caxton", wrong: ["Geoffrey Chaucer", "John Barbour", "William Shakespeare"] },
+  { lesson: 4, q: "What was one of the first books printed by William Caxton?",
+    correct: "The Canterbury Tales", wrong: ["The Bible", "The Domesday Book", "The Magna Carta"] },
+  { lesson: 4, q: "Who wrote The Bruce?",
+    correct: "John Barbour", wrong: ["Geoffrey Chaucer", "Robert the Bruce", "William Shakespeare"] },
+  { lesson: 4, q: "What is The Bruce about?",
+    correct: "The Battle of Bannockburn", wrong: ["The Canterbury pilgrimage", "The Norman Conquest", "The Wars of the Roses"] },
+
+  // ===== LESSON 5: TUDORS AND STUARTS =====
+  { lesson: 5, q: "What were the Wars of the Roses?",
+    correct: "A civil war over who should be king of England", wrong: ["A war between England and France", "A religious conflict", "A peasant revolt"] },
+  { lesson: 5, q: "When did the Wars of the Roses take place?",
+    correct: "1455 to 1485", wrong: ["1348 to 1400", "1066 to 1100", "1500 to 1550"] },
+  { lesson: 5, q: "What symbol represented the House of Lancaster?",
+    correct: "A red rose", wrong: ["A white rose", "A golden lion", "A silver dragon"] },
+  { lesson: 5, q: "What symbol represented the House of York?",
+    correct: "A white rose", wrong: ["A red rose", "A golden crown", "A silver cross"] },
+  { lesson: 5, q: "Who led the House of Lancaster in the Wars of the Roses?",
+    correct: "Henry Tudor", wrong: ["Richard III", "Henry VIII", "Edward IV"] },
+  { lesson: 5, q: "Who led the House of York in the Wars of the Roses?",
+    correct: "Richard III", wrong: ["Henry Tudor", "Edward VI", "Henry VII"] },
+  { lesson: 5, q: "At which battle was Richard III killed?",
+    correct: "Battle of Bosworth (1485)", wrong: ["Battle of Hastings", "Battle of Bannockburn", "Battle of Agincourt"] },
+  { lesson: 5, q: "Who was the first Tudor king?",
+    correct: "Henry VII", wrong: ["Henry VIII", "Richard III", "Edward VI"] },
+  { lesson: 5, q: "How did Henry Tudor unite the Lancaster and York families?",
+    correct: "He married Richard III's niece", wrong: ["He signed a peace treaty", "He defeated both families", "He was related to both families already"] },
+  { lesson: 5, q: "What is the Tudor Rose?",
+    correct: "A combination of the red rose of Lancaster and white rose of York", wrong: ["A type of garden flower", "A crown jewel", "A painting by a Tudor artist"] },
+  { lesson: 5, q: "Why did Henry VIII break away from the Church of Rome?",
+    correct: "The Pope refused to grant him a divorce from his first wife", wrong: ["He wanted to convert to Islam", "The Pope excommunicated him for heresy", "He disagreed with the Crusades"] },
+  { lesson: 5, q: "What church did Henry VIII establish?",
+    correct: "The Church of England", wrong: ["The Church of Scotland", "The Roman Catholic Church", "The Methodist Church"] },
+  { lesson: 5, q: "How many times did Henry VIII marry?",
+    correct: "6 times", wrong: ["4 times", "5 times", "3 times"] },
+  { lesson: 5, q: "Who was Henry VIII's first wife?",
+    correct: "Catherine of Aragon", wrong: ["Anne Boleyn", "Jane Seymour", "Catherine Parr"] },
+  { lesson: 5, q: "Where was Catherine of Aragon from?",
+    correct: "Spain", wrong: ["France", "Germany", "Italy"] },
+  { lesson: 5, q: "Which of Henry VIII's wives was executed and was the mother of Elizabeth?",
+    correct: "Anne Boleyn", wrong: ["Catherine Howard", "Jane Seymour", "Catherine of Aragon"] },
+  { lesson: 5, q: "Which wife gave Henry VIII a male heir (Edward)?",
+    correct: "Jane Seymour", wrong: ["Catherine of Aragon", "Anne Boleyn", "Catherine Parr"] },
+  { lesson: 5, q: "What happened to Jane Seymour?",
+    correct: "She died shortly after giving birth", wrong: ["She was executed", "She was divorced", "She survived Henry"] },
+  { lesson: 5, q: "Where was Anne of Cleves from?",
+    correct: "Germany", wrong: ["Spain", "France", "Netherlands"] },
+  { lesson: 5, q: "Which of Henry VIII's wives was Catherine Howard?",
+    correct: "His fifth wife, a cousin of Anne Boleyn, who was executed", wrong: ["His first wife, a Spanish princess", "His third wife, who gave him a son", "His sixth wife, who survived him"] },
+  { lesson: 5, q: "Which of Henry VIII's wives survived him?",
+    correct: "Catherine Parr", wrong: ["Anne Boleyn", "Catherine Howard", "Jane Seymour"] },
+  { lesson: 5, q: "What happened to Wales during Henry VIII's reign?",
+    correct: "Wales was formally united with England", wrong: ["Wales became independent", "Wales was given its own parliament", "Wales was invaded by France"] },
+  { lesson: 5, q: "What was the Reformation?",
+    correct: "A movement across Europe against the authority of the Pope and Catholic Church", wrong: ["The re-establishment of the monarchy", "A scientific revolution", "A movement to colonise the Americas"] },
+  { lesson: 5, q: "What did Protestants believe during the Reformation?",
+    correct: "Personal relationship with God was more important than church authority", wrong: ["The Pope should have more power", "Only monks should read the Bible", "Latin should be the only language of worship"] },
+  { lesson: 5, q: "What happened when England tried to impose Protestant ideas in Ireland?",
+    correct: "It led to rebellion", wrong: ["Ireland peacefully accepted", "Ireland became Protestant", "Ireland joined Scotland"] },
+  { lesson: 5, q: "Who was Edward VI?",
+    correct: "Son of Henry VIII who died at age 15 after a short reign", wrong: ["The first Tudor king", "Henry VIII's brother", "A Norman king"] },
+  { lesson: 5, q: "What did Edward VI introduce?",
+    correct: "The Book of Common Prayer", wrong: ["The King James Bible", "The Magna Carta", "The Domesday Book"] },
+  { lesson: 5, q: "Why was Mary I called 'Bloody Mary'?",
+    correct: "She persecuted Protestants", wrong: ["She lost many battles", "She executed her husband", "She imposed heavy taxes"] },
+  { lesson: 5, q: "What religion was Mary I (Bloody Mary)?",
+    correct: "Catholic", wrong: ["Protestant", "Puritan", "Anglican"] },
+  { lesson: 5, q: "What religion was Elizabeth I?",
+    correct: "Protestant", wrong: ["Catholic", "Puritan", "She had no religion"] },
+  { lesson: 5, q: "How did Elizabeth I handle religious conflict?",
+    correct: "She balanced Catholic and extreme Protestant views", wrong: ["She persecuted all Catholics", "She converted to Catholicism", "She banned all religion"] },
+  { lesson: 5, q: "When was the Spanish Armada defeated?",
+    correct: "1588", wrong: ["1485", "1066", "1649"] },
+  { lesson: 5, q: "Why did Spain send the Armada?",
+    correct: "To conquer England and restore Catholicism", wrong: ["To establish trade routes", "To rescue Mary Queen of Scots", "To claim the English throne through marriage"] },
+  { lesson: 5, q: "Who circumnavigated the world on the Golden Hind?",
+    correct: "Sir Francis Drake", wrong: ["Sir Walter Raleigh", "William Shakespeare", "Henry VIII"] },
+  { lesson: 5, q: "What did Sir Francis Drake also lead?",
+    correct: "The defeat of the Spanish Armada", wrong: ["The Wars of the Roses", "The colonisation of India", "The Battle of Hastings"] },
+  { lesson: 5, q: "What began during the Elizabethan period?",
+    correct: "Colonisation of the east coast of America", wrong: ["The feudal system", "The Black Death", "The printing press in England"] },
+  { lesson: 5, q: "Which of these plays was written by William Shakespeare?",
+    correct: "Hamlet", wrong: ["The Canterbury Tales", "The Bruce", "Paradise Lost"] },
+  { lesson: 5, q: "Which of these is a Shakespeare play?",
+    correct: "A Midsummer Night's Dream", wrong: ["The Canterbury Tales", "The Bruce", "Pilgrim's Progress"] },
+  { lesson: 5, q: "Which of these is a Shakespeare play?",
+    correct: "Romeo and Juliet", wrong: ["The Canterbury Tales", "The Bruce", "Gulliver's Travels"] },
+  { lesson: 5, q: "What is the correct Tudor succession order?",
+    correct: "Henry VII, Henry VIII, Edward VI, Bloody Mary, Elizabeth I", wrong: ["Henry VII, Henry VIII, Bloody Mary, Edward VI, Elizabeth I", "Henry VIII, Henry VII, Edward VI, Elizabeth I, Bloody Mary", "Henry VII, Edward VI, Henry VIII, Elizabeth I, Bloody Mary"] },
+  { lesson: 5, q: "At what age was Mary Queen of Scots crowned queen?",
+    correct: "One week old", wrong: ["Five years old", "Sixteen years old", "Three months old"] },
+  { lesson: 5, q: "Where did Mary Queen of Scots spend most of her childhood?",
+    correct: "France", wrong: ["England", "Scotland", "Spain"] },
+  { lesson: 5, q: "What religion was Mary Queen of Scots?",
+    correct: "Catholic", wrong: ["Protestant", "Puritan", "Anglican"] },
+  { lesson: 5, q: "How long was Mary Queen of Scots imprisoned by Elizabeth I?",
+    correct: "20 years", wrong: ["10 years", "5 years", "30 years"] },
+  { lesson: 5, q: "Why was Mary Queen of Scots executed?",
+    correct: "She was accused of plotting for the English throne", wrong: ["She was accused of murder", "She refused to convert to Protestantism", "She tried to escape to France"] },
+  { lesson: 5, q: "Who was James I of England?",
+    correct: "Son of Mary Queen of Scots, also James VI of Scotland", wrong: ["Son of Henry VIII", "Son of Elizabeth I", "Son of Charles I"] },
+  { lesson: 5, q: "Why did James VI of Scotland become James I of England?",
+    correct: "Elizabeth I had no children and James was her closest relative", wrong: ["He conquered England", "Parliament elected him", "He married Elizabeth's daughter"] },
+  { lesson: 5, q: "What is the King James Bible also known as?",
+    correct: "The Authorized Version", wrong: ["The Book of Common Prayer", "The Great Charter", "The Geneva Bible"] },
+  { lesson: 5, q: "What is the Divine Right of Kings?",
+    correct: "The belief that the king was appointed by God and needed no Parliament approval", wrong: ["The right of the king to tax without Parliament", "The king's right to appoint the Pope", "A law that made the king head of the Church"] },
+  { lesson: 5, q: "What title did Henry VIII take regarding Ireland?",
+    correct: "King of Ireland", wrong: ["Emperor of Ireland", "Lord of Ireland", "Protector of Ireland"] },
+  { lesson: 5, q: "What were the 'Plantations' in Ireland?",
+    correct: "Settlements of English and Scottish Protestants in Ulster who took land from Catholic owners", wrong: ["Farms established by the Irish", "Catholic monasteries in Dublin", "Trade posts established by the Vikings"] },
+  { lesson: 5, q: "Who was Charles I?",
+    correct: "Son of James I who believed in the Divine Right of Kings", wrong: ["Son of Henry VIII", "The first Tudor king", "A Norman lord"] },
+  { lesson: 5, q: "How long did Charles I rule without Parliament?",
+    correct: "11 years", wrong: ["5 years", "20 years", "3 years"] },
+  { lesson: 5, q: "Who were the Puritans?",
+    correct: "Strict Protestants who disagreed with Charles I's religious views", wrong: ["Catholics loyal to the Pope", "Supporters of the king", "French Huguenots"] },
+  { lesson: 5, q: "In the English Civil War, who were the Cavaliers?",
+    correct: "Supporters of the King", wrong: ["Supporters of Parliament", "Scottish rebels", "French soldiers"] },
+  { lesson: 5, q: "In the English Civil War, who were the Roundheads?",
+    correct: "Supporters of Parliament", wrong: ["Supporters of the King", "Irish rebels", "Viking descendants"] },
+  { lesson: 5, q: "At which battles was Charles I defeated?",
+    correct: "Marston Moor and Naseby", wrong: ["Hastings and Bosworth", "Bannockburn and Agincourt", "Boyne and Worcester"] },
+  { lesson: 5, q: "When was Charles I executed?",
+    correct: "1649", wrong: ["1588", "1660", "1485"] },
+  { lesson: 5, q: "What happened after Charles I was executed?",
+    correct: "England was declared a republic (the Commonwealth)", wrong: ["His son immediately became king", "France invaded England", "Parliament was dissolved"] },
+  { lesson: 5, q: "What did Scotland do after Charles I was executed?",
+    correct: "Declared Charles II as their king", wrong: ["Became a republic too", "Invaded England", "Joined with France"] },
+  { lesson: 5, q: "Where did Charles II famously hide during his escape?",
+    correct: "In an oak tree", wrong: ["In a church", "In a ship", "In a cave"] },
+  { lesson: 5, q: "Who was given the title Lord Protector?",
+    correct: "Oliver Cromwell", wrong: ["Charles II", "William of Orange", "James I"] },
+  { lesson: 5, q: "At which battles was Charles II defeated?",
+    correct: "Dunbar and Worcester", wrong: ["Hastings and Bosworth", "Marston Moor and Naseby", "Bannockburn and Agincourt"] },
+  { lesson: 5, q: "What was the Restoration?",
+    correct: "The return of the monarchy under Charles II in 1660", wrong: ["The Protestant Reformation", "The rebuilding after the Great Fire", "The return of Roman rule"] },
+  { lesson: 5, q: "How long was England a republic before the Restoration?",
+    correct: "11 years", wrong: ["5 years", "20 years", "3 years"] },
+  { lesson: 5, q: "What is the difference between the Restoration and the Reformation?",
+    correct: "Restoration = re-establishing the monarchy; Reformation = movement against the Pope", wrong: ["They are the same thing", "Restoration = religious reform; Reformation = political change", "Restoration was in Scotland; Reformation was in England"] },
+  { lesson: 5, q: "What happened in London in 1665?",
+    correct: "A major plague", wrong: ["The Great Fire", "The execution of Charles I", "The Glorious Revolution"] },
+  { lesson: 5, q: "What happened in London in 1666?",
+    correct: "The Great Fire of London", wrong: ["The Great Plague", "The execution of Charles I", "The Glorious Revolution"] },
+  { lesson: 5, q: "What does the Habeas Corpus Act (1679) prevent?",
+    correct: "Holding a prisoner without a court hearing", wrong: ["Taxing without Parliament's approval", "The king dissolving Parliament", "Freedom of speech being restricted"] },
+  { lesson: 5, q: "What is the Royal Society?",
+    correct: "The oldest surviving scientific society in the world", wrong: ["A social club for royalty", "The king's personal army", "A group of royal advisors"] },
+  { lesson: 5, q: "Who discovered gravity (according to tradition)?",
+    correct: "Isaac Newton", wrong: ["Sir Edmund Halley", "Robert Boyle", "Sir Francis Drake"] },
+  { lesson: 5, q: "Who predicted the return of Halley's Comet?",
+    correct: "Sir Edmund Halley", wrong: ["Isaac Newton", "Galileo", "William Herschel"] },
+  { lesson: 5, q: "Why did James II becoming king cause unrest?",
+    correct: "He was Catholic and favoured Catholics", wrong: ["He was too young to rule", "He was a foreigner", "He dissolved Parliament permanently"] },
+  { lesson: 5, q: "Who was William of Orange?",
+    correct: "A Protestant from the Netherlands, married to James II's daughter Mary", wrong: ["A French prince", "A Scottish lord", "An Irish rebel leader"] },
+  { lesson: 5, q: "Why was the Glorious Revolution called 'glorious'?",
+    correct: "There was no fighting when William of Orange arrived", wrong: ["It restored the Catholic Church", "It united England and France", "It was celebrated with a great festival"] },
+  { lesson: 5, q: "Where was James II defeated after returning from France with an army?",
+    correct: "Battle of the Boyne", wrong: ["Battle of Hastings", "Battle of Naseby", "Battle of Bannockburn"] },
+  { lesson: 5, q: "What happened to the McDonalds of Glencoe?",
+    correct: "They were massacred for being late to swear an oath to William", wrong: ["They led a successful rebellion", "They became advisors to the king", "They fled to France"] },
+  { lesson: 5, q: "Who were the Jacobites?",
+    correct: "Scots who still supported the exiled King James", wrong: ["Supporters of Oliver Cromwell", "French soldiers in England", "Followers of the Pope"] },
+
+  // ===== LESSON 6: ARTS AND CULTURE =====
+  { lesson: 6, q: "What are the Proms?",
+    correct: "An 8-week summer season of orchestral classical music", wrong: ["A theatre festival in Edinburgh", "A series of art exhibitions", "A literary award ceremony"] },
+  { lesson: 6, q: "Who organises the Proms?",
+    correct: "The BBC", wrong: ["The Royal Society", "The National Gallery", "The British Museum"] },
+  { lesson: 6, q: "Which of these is a major UK outdoor music festival?",
+    correct: "Glastonbury", wrong: ["The Proms", "Edinburgh Fringe", "Chelsea Flower Show"] },
+  { lesson: 6, q: "Which of these is a major UK outdoor music festival?",
+    correct: "Isle of Wight Festival", wrong: ["The Proms", "Edinburgh Fringe", "Turner Prize"] },
+  { lesson: 6, q: "Which of these is a major UK outdoor music festival?",
+    correct: "Creamfields", wrong: ["The Proms", "Edinburgh Fringe", "Brit Awards ceremony"] },
+  { lesson: 6, q: "What is the Mercury Prize awarded for?",
+    correct: "Best album from the UK and Ireland each year", wrong: ["Best play in London's West End", "Best contemporary art", "Best fiction novel"] },
+  { lesson: 6, q: "What do the Brit Awards cover?",
+    correct: "A range of music categories", wrong: ["Theatre performances", "Contemporary art", "Fiction writing"] },
+  { lesson: 6, q: "What is Theatreland?",
+    correct: "An area in London's West End with many theatres", wrong: ["A festival in Edinburgh", "A theatre in Manchester", "A BBC television series"] },
+  { lesson: 6, q: "What are Gilbert and Sullivan famous for?",
+    correct: "Writing comic operas that made fun of popular culture and politics", wrong: ["Painting landscapes", "Building Gothic churches", "Writing novels"] },
+  { lesson: 6, q: "What is pantomime?",
+    correct: "A British tradition of fairy stories and light-hearted plays staged at Christmas", wrong: ["A type of mime performed in parks", "An annual music festival", "A classical music concert"] },
+  { lesson: 6, q: "What is the Edinburgh Fringe Festival?",
+    correct: "An important festival showcasing theatre from across the country", wrong: ["A classical music event organised by the BBC", "A contemporary art show", "A literary prize ceremony"] },
+  { lesson: 6, q: "What are the Laurence Olivier Awards?",
+    correct: "Annual awards for a variety of theatre categories", wrong: ["Awards for the best album", "Awards for contemporary art", "Awards for fiction writing"] },
+  { lesson: 6, q: "Which of these is a famous London art gallery?",
+    correct: "National Gallery", wrong: ["Theatreland", "Royal Society", "Chelsea Flower Show"] },
+  { lesson: 6, q: "Which of these is a famous London art gallery?",
+    correct: "Tate Britain", wrong: ["Edinburgh Fringe", "Royal Albert Hall", "Glastonbury"] },
+  { lesson: 6, q: "Which of these is a famous London art gallery?",
+    correct: "Tate Modern", wrong: ["Theatreland", "Cenotaph", "Chelsea"] },
+  { lesson: 6, q: "What is the Turner Prize?",
+    correct: "An annual award for contemporary art", wrong: ["An award for the best album", "A prize for fiction writing", "A theatre award"] },
+  { lesson: 6, q: "Where is the Turner Prize held?",
+    correct: "Tate Britain", wrong: ["Tate Modern", "National Gallery", "British Museum"] },
+  { lesson: 6, q: "What architectural style are the Houses of Parliament built in?",
+    correct: "Gothic", wrong: ["Classical", "Baroque", "Art Deco"] },
+  { lesson: 6, q: "Which other famous building is in the Gothic style?",
+    correct: "St Pancras Station", wrong: ["Buckingham Palace", "The Tower of London", "Windsor Castle"] },
+  { lesson: 6, q: "Who was Sir Edwin Lutyens?",
+    correct: "A famous British architect", wrong: ["A famous British poet", "A famous British painter", "A famous British composer"] },
+  { lesson: 6, q: "What did Sir Edwin Lutyens design in India?",
+    correct: "The New Delhi government seat", wrong: ["The Taj Mahal restoration", "The Mumbai railway station", "The Calcutta cathedral"] },
+  { lesson: 6, q: "Who designed the Cenotaph in Whitehall, London?",
+    correct: "Sir Edwin Lutyens", wrong: ["Sir Christopher Wren", "Inigo Jones", "Charles Rennie Mackintosh"] },
+  { lesson: 6, q: "What is the Cenotaph?",
+    correct: "A war memorial in Whitehall, London", wrong: ["A theatre in the West End", "An art gallery", "A royal palace"] },
+  { lesson: 6, q: "What does the Chelsea Flower Show showcase?",
+    correct: "Garden design from Britain and around the world", wrong: ["Contemporary art", "Classical music", "Historic architecture"] },
+  { lesson: 6, q: "What is the Man Booker Prize awarded for?",
+    correct: "Best fiction novel by an author from the Commonwealth, Ireland, or Zimbabwe", wrong: ["Best album in the UK", "Best theatrical performance", "Best contemporary art"] },
+  { lesson: 6, q: "Which of these is a famous British writer?",
+    correct: "Jane Austen", wrong: ["Lord Byron", "William Blake", "Robert Browning"] },
+  { lesson: 6, q: "Which of these is a famous British writer?",
+    correct: "Charles Dickens", wrong: ["Lord Byron", "William Blake", "Robert Browning"] },
+  { lesson: 6, q: "Which of these is a famous British writer?",
+    correct: "JK Rowling", wrong: ["Lord Byron", "William Blake", "Robert Browning"] },
+  { lesson: 6, q: "Which of these is a famous British writer?",
+    correct: "JRR Tolkien", wrong: ["Lord Byron", "William Blake", "Robert Browning"] },
+  { lesson: 6, q: "Which of these is a famous British writer?",
+    correct: "Sir Arthur Conan Doyle", wrong: ["Lord Byron", "William Blake", "Robert Browning"] },
+  { lesson: 6, q: "Which of these is a famous British poet?",
+    correct: "William Blake", wrong: ["Charles Dickens", "JK Rowling", "Jane Austen"] },
+  { lesson: 6, q: "Which of these is a famous British poet?",
+    correct: "Lord Byron", wrong: ["Charles Dickens", "JRR Tolkien", "Sir Arthur Conan Doyle"] },
+  { lesson: 6, q: "Which of these is a famous British poet?",
+    correct: "Robert Browning", wrong: ["Charles Dickens", "JK Rowling", "Jane Austen"] },
+  { lesson: 6, q: "Have British writers won the Nobel Prize in Literature?",
+    correct: "Yes, several have won it", wrong: ["No, none have ever won", "Only one has won it", "Only Scottish writers have won it"] },
+];
+
+const lessonNames = {
+  1: "Values & Principles",
+  2: "What Is the UK",
+  3: "Early Britain",
+  4: "Middle Ages",
+  5: "Tudors & Stuarts",
+  6: "Arts & Culture"
+};
+
+let pool = [];
+let current = null;
+let answered = 0;
+let correct = 0;
+let streak = 0;
+let bestStreak = 0;
+let activeFilters = new Set([1,2,3,4,5,6]);
+
+const card = document.getElementById("card");
+const lessonTag = document.getElementById("lessonTag");
+const questionNum = document.getElementById("questionNum");
+const questionText = document.getElementById("questionText");
+const answersDiv = document.getElementById("answers");
+const feedback = document.getElementById("feedback");
+const nextBtn = document.getElementById("nextBtn");
+const scoreText = document.getElementById("scoreText");
+const progressFill = document.getElementById("progressFill");
+const streakText = document.getElementById("streakText");
+const filtersDiv = document.getElementById("filters");
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildFilters() {
+  filtersDiv.innerHTML = "";
+  const allBtn = document.createElement("button");
+  allBtn.className = "filter-btn" + (activeFilters.size === 6 ? " active" : "");
+  allBtn.textContent = "All";
+  allBtn.addEventListener("click", () => { activeFilters = new Set([1,2,3,4,5,6]); resetQuiz(); });
+  filtersDiv.appendChild(allBtn);
+  for (let i = 1; i <= 6; i++) {
+    const btn = document.createElement("button");
+    btn.className = "filter-btn" + (activeFilters.has(i) && activeFilters.size < 6 ? " active" : "");
+    btn.textContent = "L" + i;
+    btn.title = lessonNames[i];
+    btn.addEventListener("click", () => {
+      if (activeFilters.size === 6) activeFilters = new Set([i]);
+      else if (activeFilters.has(i) && activeFilters.size > 1) activeFilters.delete(i);
+      else activeFilters.add(i);
+      resetQuiz();
+    });
+    filtersDiv.appendChild(btn);
+  }
+}
+
+function resetQuiz() {
+  const filtered = questions.filter(q => activeFilters.has(q.lesson));
+  pool = shuffle([...Array(filtered.length).keys()]);
+  pool._source = filtered;
+  answered = 0; correct = 0; streak = 0; bestStreak = 0;
+  updateScore();
+  buildFilters();
+  // Restore card HTML if summary was shown
+  card.innerHTML = '<span class="lesson-tag" id="lessonTag"></span>' +
+    '<div class="question-num" id="questionNum"></div>' +
+    '<div class="question" id="questionText"></div>' +
+    '<div class="answers" id="answers"></div>' +
+    '<div class="feedback" id="feedback"></div>' +
+    '<button class="next-btn" id="nextBtn">Next Question</button>';
+  document.getElementById("nextBtn").addEventListener("click", showNext);
+  showNext();
+}
+
+function updateScore() {
+  scoreText.textContent = correct + " / " + answered;
+  const pct = answered > 0 ? (correct / answered * 100) : 0;
+  progressFill.style.width = pct + "%";
+  progressFill.style.background = pct >= 70 ? "var(--green)" : pct >= 40 ? "#f59e0b" : "var(--red)";
+  streakText.innerHTML = streak >= 3 ? "<strong>" + streak + "</strong> streak" : "";
+}
+
+function showNext() {
+  if (pool.length === 0) { showSummary(); return; }
+  const idx = pool.pop();
+  current = pool._source[idx];
+  const total = pool._source.length;
+
+  document.getElementById("lessonTag").textContent = "Lesson " + current.lesson + " \u2014 " + lessonNames[current.lesson];
+  document.getElementById("questionNum").textContent = "Question " + (answered + 1) + " of " + total;
+  document.getElementById("questionText").textContent = current.q;
+
+  const ad = document.getElementById("answers");
+  ad.innerHTML = "";
+  shuffle([current.correct, ...current.wrong]).forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
+    btn.textContent = opt;
+    btn.addEventListener("click", () => handleAnswer(opt, btn));
+    ad.appendChild(btn);
+  });
+
+  const fb = document.getElementById("feedback");
+  fb.className = "feedback"; fb.textContent = "";
+  document.getElementById("nextBtn").classList.remove("show");
+}
+
+function handleAnswer(chosen, btn) {
+  const ad = document.getElementById("answers");
+  const fb = document.getElementById("feedback");
+  const buttons = ad.querySelectorAll(".answer-btn");
+  const isCorrect = chosen === current.correct;
+  answered++;
+  buttons.forEach(b => { b.disabled = true; if (b.textContent === current.correct) b.classList.add("correct"); });
+  if (isCorrect) {
+    correct++; streak++;
+    if (streak > bestStreak) bestStreak = streak;
+    fb.className = "feedback correct show";
+    fb.textContent = "Correct!";
+  } else {
+    streak = 0;
+    btn.classList.add("wrong");
+    fb.className = "feedback wrong show";
+    fb.textContent = "The correct answer is: " + current.correct;
+  }
+  updateScore();
+  document.getElementById("nextBtn").classList.add("show");
+}
+
+function showSummary() {
+  const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  const cls = pct >= 70 ? "" : pct >= 40 ? " mid" : " low";
+  card.innerHTML = '<div class="summary-card">' +
+    "<h2>Quiz Complete!</h2>" +
+    '<div class="big-score' + cls + '">' + pct + "%</div>" +
+    "<p>You got <strong>" + correct + "</strong> out of <strong>" + answered + "</strong> correct." +
+    (bestStreak >= 3 ? "<br>Best streak: <strong>" + bestStreak + "</strong>" : "") + "</p>" +
+    '<button class="restart-btn" id="restartBtn">Try Again</button></div>';
+  document.getElementById("restartBtn").addEventListener("click", resetQuiz);
+}
+
+document.addEventListener("keydown", (e) => {
+  const nb = document.getElementById("nextBtn");
+  if (e.key === "Enter" && nb && nb.classList.contains("show")) showNext();
+  if (e.key >= "1" && e.key <= "4") {
+    const btns = document.querySelectorAll("#answers .answer-btn:not(:disabled)");
+    const idx = parseInt(e.key) - 1;
+    if (btns[idx]) btns[idx].click();
+  }
+});
+
+resetQuiz();
+</script>
+
+</body>
+</html>
