@@ -77,6 +77,11 @@
   .feedback.show { display: block; }
   .feedback.correct { background: var(--green-bg); color: #15803d; border-left: 4px solid var(--green); }
   .feedback.wrong { background: var(--red-bg); color: #b91c1c; border-left: 4px solid var(--red); }
+  .review-link {
+    display: inline-block; margin-left: 0.5rem; font-size: 0.8rem; font-weight: 400;
+    color: var(--navy); text-decoration: underline; opacity: 0.8;
+  }
+  .review-link:hover { opacity: 1; }
   .next-btn {
     display: none; margin-top: 1.5rem; padding: 0.65rem 2rem; border: none;
     background: var(--navy); color: var(--white); border-radius: 6px; cursor: pointer;
@@ -704,16 +709,17 @@ function handleAnswer(chosen, btn) {
   const isCorrect = chosen === current.correct;
   answered++;
   buttons.forEach(b => { b.disabled = true; if (b.textContent === current.correct) b.classList.add("correct"); });
+  const link = ' <a href="index.html#lesson-' + current.lesson + '" class="review-link">Review in Lesson ' + current.lesson + '</a>';
   if (isCorrect) {
     correct++; streak++;
     if (streak > bestStreak) bestStreak = streak;
     fb.className = "feedback correct show";
-    fb.textContent = "Correct!";
+    fb.innerHTML = "Correct!" + link;
   } else {
     streak = 0;
     btn.classList.add("wrong");
     fb.className = "feedback wrong show";
-    fb.textContent = "The correct answer is: " + current.correct;
+    fb.innerHTML = "The correct answer is: " + current.correct + link;
   }
   updateScore();
   document.getElementById("nextBtn").classList.add("show");
