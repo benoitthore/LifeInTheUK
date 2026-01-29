@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life in the UK - Study Notes</title>
+<style>
+  :root {
+    --navy: #1b2a4a;
+    --red: #c8102e;
+    --white: #fff;
+    --light: #f4f5f7;
+    --text: #2c2c2c;
+    --muted: #6b7280;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--light);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  header h1 span {
+    color: var(--red);
+  }
+
+  nav {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 1rem 1rem 0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  nav button {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--navy);
+    background: var(--white);
+    color: var(--navy);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+
+  nav button:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  nav button.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--white);
+  }
+
+  main {
+    max-width: 900px;
+    margin: 1rem auto 3rem;
+    padding: 0 1rem;
+  }
+
+  .lesson {
+    display: none;
+    background: var(--white);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  .lesson.active { display: block; }
+
+  .lesson h2 {
+    font-size: 1.3rem;
+    color: var(--navy);
+    border-bottom: 3px solid var(--red);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lesson h3 {
+    font-size: 1.05rem;
+    color: var(--navy);
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .lesson h3:first-of-type { margin-top: 0; }
+
+  .lesson ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .lesson ul li {
+    padding: 0.35rem 0 0.35rem 1.2rem;
+    position: relative;
+  }
+
+  .lesson ul li::before {
+    content: "\25B8";
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: bold;
+  }
+
+  .lesson ul ul {
+    margin-top: 0.2rem;
+  }
+
+  .lesson ul ul li::before {
+    content: "\2022";
+    color: var(--muted);
+  }
+
+  .lesson ol {
+    padding-left: 1.5rem;
+  }
+
+  .lesson ol li {
+    padding: 0.25rem 0;
+  }
+
+  .note {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+  }
+
+  .key-point {
+    background: #dbeafe;
+    border-left: 4px solid var(--navy);
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .nav-bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .nav-bottom button {
+    padding: 0.5rem 1.2rem;
+    border: none;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.15s ease;
+  }
+
+  .nav-bottom button:hover { background: var(--red); }
+  .nav-bottom button:disabled { opacity: 0.3; cursor: default; background: var(--navy); }
+
+  .counter {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Life in the <span>UK</span> &mdash; Study Notes</h1>
+</header>
+
+<nav id="nav"></nav>
+
+<main id="main">
+
+<!-- LESSON 2 -->
+<div class="lesson" data-lesson="0">
+  <h2>Lesson 2 &mdash; Values and Principles of the UK</h2>
+
+  <h3>Fundamental Principles of British Life</h3>
+  <ul>
+    <li>Individual liberty</li>
+  </ul>
+
+  <h3>Responsibilities as a British Citizen</h3>
+  <ul>
+    <li>Respect and obey the law</li>
+    <li>Look after yourself and your family</li>
+  </ul>
+
+  <h3>Freedoms the UK Offers</h3>
+  <ul>
+    <li>Freedom of speech</li>
+    <li>Freedom of belief in religion</li>
+  </ul>
+
+  <div class="note">Questions on this section are straightforward &mdash; the correct answer is usually the most obvious / common-sense option among the multiple choices.</div>
+</div>
+
+<!-- LESSON 3 -->
+<div class="lesson" data-lesson="1">
+  <h2>Lesson 3 &mdash; What Is the UK</h2>
+
+  <h3>The United Kingdom</h3>
+  <ul>
+    <li>Made up of <strong>4 countries</strong>: England, Scotland, Wales, Northern Ireland</li>
+    <li>Full name: The United Kingdom of Great Britain and Northern Ireland</li>
+    <li><strong>Great Britain</strong> = England + Scotland + Wales (NOT Northern Ireland)</li>
+    <li>Governed by Parliament sitting in Westminster (central London)</li>
+  </ul>
+
+  <h3>Crown Dependencies (linked to UK but NOT part of the UK)</h3>
+  <ul>
+    <li>Channel Islands (in the English Channel between England and France)</li>
+    <li>Isle of Man (island off the coast of England)</li>
+  </ul>
+
+  <h3>British Overseas Territories (linked to UK but NOT part of the UK)</h3>
+  <ul>
+    <li>Saint Helena (small island off the coast of Africa)</li>
+    <li>Falkland Islands (off the coast of Argentina)</li>
+  </ul>
+
+  <div class="key-point">Crown dependencies and British overseas territories are NOT part of the UK.</div>
+</div>
+
+<!-- LESSON 4 -->
+<div class="lesson" data-lesson="2">
+  <h2>Lesson 4 &mdash; Early Britain</h2>
+
+  <h3>Stone Age</h3>
+  <ul>
+    <li>First people in Britain were hunter-gatherers</li>
+    <li>Came via a land bridge connecting mainland Europe to Britain</li>
+    <li>~10,000 years ago: Britain permanently separated by the Channel</li>
+    <li>First farmers arrived ~6,000 years ago, most likely from southeast Europe</li>
+    <li>Famous Stone Age sites:
+      <ul>
+        <li><strong>Stonehenge</strong> &mdash; in Wiltshire, England (arrangement of giant rocks, used for seasonal ceremonies)</li>
+        <li><strong>Skara Brae</strong> &mdash; on Orkney, off coast of mainland Scotland (well-preserved prehistoric village)</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Bronze Age (~4,000 years ago)</h3>
+  <ul>
+    <li>People started using bronze</li>
+    <li>Lived in round houses</li>
+    <li>Buried their dead in round barrows</li>
+  </ul>
+
+  <h3>Iron Age</h3>
+  <ul>
+    <li>People made tools and weapons from iron</li>
+    <li>First coins minted in Britain &mdash; inscribed with names of Iron Age kings</li>
+    <li>Lived in round houses grouped into hill forts</li>
+    <li><strong>Maiden Castle</strong> = impressive hill fort still visible today</li>
+    <li>Language spoken: Celtic</li>
+  </ul>
+
+  <h3>Romans</h3>
+  <ul>
+    <li><strong>55 BC</strong>: Julius Caesar leads unsuccessful invasion</li>
+    <li><strong>AD 43</strong>: Emperor Claudius leads successful invasion</li>
+    <li><strong>Boudicca</strong> (Boadicea): famous tribal leader who rebelled against the Romans
+      <ul><li>Statue of her on Westminster Bridge by Houses of Parliament</li></ul>
+    </li>
+    <li><strong>Hadrian's Wall</strong>: built by Emperor Hadrian to keep out the Picts (ancestors of Scottish people)
+      <ul><li>Forts of Housesteads and Vindolanda can still be seen today</li></ul>
+    </li>
+    <li>Romans built roads, public buildings, created structure of law, introduced new plants and animals</li>
+    <li><strong>AD 410</strong>: Romans leave Britain (after ~400 years)</li>
+  </ul>
+
+  <h3>Anglo-Saxons</h3>
+  <ul>
+    <li>After Romans left, Britain invaded by Jutes, Angles, and Saxons (from northern Europe)</li>
+    <li>By AD 600: Anglo-Saxon kingdoms established</li>
+    <li><strong>Sutton Hoo</strong>: famous burial place of an Anglo-Saxon king (buried with treasure and armor in a ship)</li>
+  </ul>
+
+  <h3>Early Christian Missionaries</h3>
+  <ul>
+    <li>Arrived in 3rd and 4th centuries to preach Christianity</li>
+    <li>Three famous missionaries:
+      <ul>
+        <li><strong>Saint Patrick</strong> (from Ireland)</li>
+        <li><strong>Saint Columba</strong> (from Ireland)</li>
+        <li><strong>Saint Augustine</strong> (from Rome) &mdash; became the FIRST Archbishop of Canterbury</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Vikings (from AD 789)</h3>
+  <ul>
+    <li>Came from Denmark, Norway, and Sweden</li>
+    <li>Anglo-Saxons united under <strong>King Alfred the Great</strong>, who defeated the Vikings</li>
+    <li>In the north, people united under Kenneth MacAlpin &mdash; term "Scotland" used for that country</li>
+    <li>Danish kings briefly ruled England; first Danish king was <strong>Knut (Canute)</strong></li>
+  </ul>
+
+  <h3>Norman Conquest (1066)</h3>
+  <ul>
+    <li>William, Duke of Normandy (from northern France) invades Britain</li>
+    <li>Defeats King Harold at the <strong>Battle of Hastings</strong> in 1066</li>
+    <li>Earns title "William the Conqueror"</li>
+    <li>This was the <strong>LAST successful foreign invasion</strong> of Britain</li>
+    <li><strong>Bayeux Tapestry</strong>: embroidery (~70 meters long) commemorating the battle, still in France today</li>
+    <li><strong>Domesday Book</strong>: lists of people, land, and animals they owned &mdash; still exists today</li>
+  </ul>
+</div>
+
+<!-- LESSON 5 -->
+<div class="lesson" data-lesson="3">
+  <h2>Lesson 5 &mdash; The Middle Ages</h2>
+
+  <h3>Wars and Conflicts</h3>
+  <ul>
+    <li><strong>Wales</strong>: 1284 &mdash; English annexed Wales under the Statute of Rhuddlan</li>
+    <li><strong>Scotland</strong>: 1314 &mdash; Robert the Bruce defeated the English at the Battle of Bannockburn</li>
+    <li><strong>Ireland</strong>: By 1200 &mdash; English established rule in the Pale (area just outside Dublin)</li>
+    <li>Abroad:
+      <ul>
+        <li>The Crusades &mdash; war for control of the Holy Land</li>
+        <li>The Hundred Years War (actually 116 years) with France
+          <ul><li>Battle of Agincourt: Henry V defeats a much larger French army</li></ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Feudalism</h3>
+  <ul>
+    <li>System established by the Normans</li>
+    <li>King &rarr; Lords (given land in return for help in war) &rarr; Serfs (peasants who worked the land)</li>
+    <li>Serfs = regular peasants who worked for their lord and fought when the king requested</li>
+  </ul>
+
+  <h3>The Black Death (1348)</h3>
+  <ul>
+    <li>A plague that killed around <strong>one third</strong> of the population</li>
+    <li>Led to labour shortages &rarr; peasants demanded higher wages</li>
+    <li>Resulted in emergence of a middle class and large landowners called "gentry"</li>
+  </ul>
+
+  <h3>Legal and Political Changes</h3>
+  <ul>
+    <li><strong>Magna Carta</strong> (1215) = "Great Charter"
+      <ul>
+        <li>Charter of rights that noblemen pressured king to accept</li>
+        <li>Established that even the king was subject to the law (limited king's power)</li>
+      </ul>
+    </li>
+    <li>Parliament developed during this period with <strong>two houses</strong>:
+      <ul>
+        <li>House of Lords: lords, bishops, great landowners</li>
+        <li>House of Commons: knights, small landowners, wealthy townspeople</li>
+      </ul>
+    </li>
+    <li>Scotland had its own parliament with <strong>three houses</strong>: Lords, Commons, and Clergy</li>
+    <li>English law: Common law &mdash; based on precedent (following previous decisions)</li>
+    <li>Scottish law: Codified (written down)</li>
+  </ul>
+
+  <h3>Language and Culture</h3>
+  <ul>
+    <li>Anglo-Saxon (peasants) + Norman French (king and nobles) = Modern English</li>
+    <li>By 1400: English used in official documents, royal court, and parliament</li>
+    <li>In Scotland: people continued to speak Gaelic</li>
+    <li><strong>Geoffrey Chaucer</strong> wrote <em>The Canterbury Tales</em> (poems about pilgrims traveling to Canterbury)
+      <ul><li>One of the first books printed by William Caxton using the printing press</li></ul>
+    </li>
+    <li><strong>John Barbour</strong> wrote <em>The Bruce</em> (poems about Battle of Bannockburn, written in Gaelic)</li>
+  </ul>
+</div>
+
+<!-- LESSON 6 -->
+<div class="lesson" data-lesson="4">
+  <h2>Lesson 6 &mdash; The Tudors and Stuarts</h2>
+
+  <h3>Wars of the Roses (1455&ndash;1485)</h3>
+  <ul>
+    <li>Civil war over who should be king of England</li>
+    <li>House of Lancaster (red rose) led by Henry Tudor vs House of York (white rose) led by Richard III</li>
+    <li>Henry Tudor wins, kills Richard III at the <strong>Battle of Bosworth</strong> (1485)</li>
+    <li>Henry Tudor marries Richard III's niece to unite families</li>
+    <li>Becomes <strong>Henry VII</strong>, first king of the House of Tudor</li>
+    <li>Tudor Rose = red (Lancaster) + white (York)</li>
+  </ul>
+
+  <h3>Henry VIII</h3>
+  <ul>
+    <li>Son of Henry VII</li>
+    <li>Broke away from the Church of Rome (Pope refused divorce from first wife)</li>
+    <li>Established the <strong>Church of England</strong> (king holds power, not the Pope)</li>
+    <li>Married 6 times:
+      <ol>
+        <li>Catherine of Aragon &mdash; Spanish princess, gave him daughter Mary, divorced</li>
+        <li>Anne Boleyn &mdash; gave him daughter Elizabeth, executed</li>
+        <li>Jane Seymour &mdash; gave him son Edward (the heir he wanted), died after birth</li>
+        <li>Anne of Cleves &mdash; German princess, political marriage, divorced quickly</li>
+        <li>Catherine Howard &mdash; cousin of Anne Boleyn, executed</li>
+        <li>Catherine Parr &mdash; widow, survived Henry, remarried after he died</li>
+      </ol>
+    </li>
+    <li>During his reign: Wales formally united with England (Act of Government of Wales)</li>
+  </ul>
+
+  <h3>The Reformation</h3>
+  <ul>
+    <li>Movement across Europe against the authority of the Pope and Roman Catholic Church</li>
+    <li>Protestants: formed own churches, read Bible in own language, believed personal relationship with God more important than church authority</li>
+    <li>English tried to impose Protestant ideas in Ireland &rarr; led to rebellion</li>
+  </ul>
+
+  <h3>Edward VI</h3>
+  <ul>
+    <li>Son of Henry VIII, died age 15, short reign (6 years)</li>
+    <li>Introduced the <strong>Book of Common Prayer</strong> (Church of England, still used today)</li>
+  </ul>
+
+  <h3>Bloody Mary (Mary I)</h3>
+  <ul>
+    <li>Half-sister of Edward VI, devout Catholic</li>
+    <li>Persecuted Protestants (hence nickname "Bloody Mary")</li>
+    <li>Short reign</li>
+  </ul>
+
+  <h3>Elizabeth I</h3>
+  <ul>
+    <li>Protestant, very successful monarch</li>
+    <li>Balanced Catholic and extreme Protestant views (avoided serious religious conflict)</li>
+    <li>Skilled at managing Parliament</li>
+    <li>Defeated the <strong>Spanish Armada</strong> (1588) &mdash; large fleet sent by Spain to conquer England and restore Catholicism</li>
+    <li>Elizabethan period = growing patriotism, new trade routes, colonisation of east coast of America began</li>
+    <li><strong>Sir Francis Drake</strong>: led defeat of Spanish Armada, circumnavigated the world on the Golden Hind</li>
+    <li><strong>William Shakespeare</strong>: plays, poems, and sonnets
+      <ul><li>Famous plays: A Midsummer Night's Dream, Hamlet, Macbeth, Romeo and Juliet</li></ul>
+    </li>
+  </ul>
+
+  <div class="key-point">Tudor Succession: Henry VII &rarr; Henry VIII &rarr; Edward VI &rarr; Bloody Mary &rarr; Elizabeth I</div>
+
+  <h3>Mary Queen of Scots (Mary Stuart)</h3>
+  <ul>
+    <li>Catholic, crowned queen at one week old</li>
+    <li>Spent most of her childhood in France</li>
+    <li>Accused of killing her husband &rarr; fled to England, gave throne to Protestant son James VI</li>
+    <li>Cousin of Elizabeth I</li>
+    <li>Imprisoned for 20 years by Elizabeth I, then executed (accused of plotting for English throne)</li>
+  </ul>
+
+  <h3>James I of England (James VI of Scotland)</h3>
+  <ul>
+    <li>Son of Mary Queen of Scots, cousin of Elizabeth I</li>
+    <li>Elizabeth I had no children &rarr; James became king of both England and Scotland</li>
+    <li>Scotland still remained a separate country</li>
+    <li>Developed the <strong>King James Bible</strong> (also known as the Authorized Version)</li>
+    <li>Believed in the Divine Right of Kings (king appointed by God, no need for Parliament approval)</li>
+  </ul>
+
+  <h3>Ireland during Tudor/Stuart Period</h3>
+  <ul>
+    <li>Henry VIII took title "King of Ireland", extended control beyond the Pale</li>
+    <li>Rebellions against Protestant/English rule under Elizabeth I and James I</li>
+    <li><strong>Plantations</strong>: English and Scottish Protestants settled in Ulster (northern Ireland), took land from Catholic landowners</li>
+  </ul>
+
+  <h3>Charles I</h3>
+  <ul>
+    <li>Son of James I, also believed in Divine Right of Kings</li>
+    <li>Ruled without Parliament for 11 years</li>
+    <li>Puritans: strict Protestants who disagreed with Charles's religious views</li>
+  </ul>
+
+  <h3>English Civil War</h3>
+  <ul>
+    <li><strong>Cavaliers</strong> (supporters of the King) vs <strong>Roundheads</strong> (supporters of Parliament)</li>
+    <li>Charles I defeated at Battle of Marston Moor and Battle of Naseby</li>
+    <li>Charles I executed in 1649</li>
+  </ul>
+
+  <h3>The Commonwealth (Republic)</h3>
+  <ul>
+    <li>England declared a republic after Charles I's execution</li>
+    <li>Scotland declared Charles II (son of Charles I) as their king</li>
+    <li>Charles II leads army into England, defeated at Battles of Dunbar and Worcester</li>
+    <li>Charles II escapes to Europe (famously hid in an oak tree)</li>
+    <li><strong>Oliver Cromwell</strong>: general who defeated Charles II, given title Lord Protector</li>
+  </ul>
+
+  <h3>The Restoration (1660)</h3>
+  <ul>
+    <li>After 11 years as republic + death of Cromwell, people wanted a king again</li>
+    <li>Parliament invites Charles II back from exile to be king</li>
+  </ul>
+
+  <div class="note">Restoration (re-establishing monarchy) is NOT the same as Reformation (movement against the Pope).</div>
+
+  <h3>During Charles II's Reign</h3>
+  <ul>
+    <li>1665: Major plague in London</li>
+    <li>1666: Great Fire of London</li>
+    <li>1679: <strong>Habeas Corpus Act</strong> &mdash; illegal to hold prisoner without a court hearing</li>
+    <li><strong>Royal Society</strong> established (oldest surviving science society)
+      <ul>
+        <li>Isaac Newton &mdash; discovered gravity</li>
+        <li>Sir Edmund Halley &mdash; predicted return of Halley's Comet</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>The Glorious Revolution</h3>
+  <ul>
+    <li>Charles II had no legitimate children &rarr; brother James II (Catholic) becomes king</li>
+    <li>James favoured Catholics, causing unrest</li>
+    <li><strong>William of Orange</strong> (Protestant, from Netherlands, married to James's daughter Mary)</li>
+    <li>Protestants invited William to invade England</li>
+    <li>No fighting when William arrived &rarr; called the Glorious Revolution</li>
+    <li>James flees to France, returns with French army, defeated at <strong>Battle of the Boyne</strong>, flees again</li>
+    <li>Scottish clans required to accept William; McDonalds of Glencoe were late taking oath &rarr; massacred</li>
+    <li><strong>Jacobites</strong>: Scots who still supported James</li>
+  </ul>
+</div>
+
+<!-- LESSON 7 -->
+<div class="lesson" data-lesson="5">
+  <h2>Lesson 7 &mdash; Arts and Culture</h2>
+
+  <h3>Music</h3>
+  <ul>
+    <li><strong>The Proms</strong>: 8-week summer season of orchestral classical music, organized by the BBC</li>
+    <li>Major outdoor music festivals: Glastonbury, Isle of Wight, Creamfields</li>
+    <li><strong>Mercury Prize</strong>: awarded each year for best album in UK and Ireland</li>
+    <li><strong>Brit Awards</strong>: annual awards covering a range of music categories</li>
+  </ul>
+
+  <h3>Theatre</h3>
+  <ul>
+    <li><strong>Theatreland</strong>: area in London's West End with many theatres</li>
+    <li><strong>Gilbert and Sullivan</strong>: famous for writing comic operas (made fun of popular culture and politics)</li>
+    <li><strong>Pantomime</strong>: British tradition, fairy stories / light-hearted plays staged at Christmas time</li>
+    <li><strong>Edinburgh Fringe Festival</strong>: important festival showcasing theatre from across the country</li>
+    <li><strong>Laurence Olivier Awards</strong>: annual award for variety of theatre categories</li>
+  </ul>
+
+  <h3>Art</h3>
+  <ul>
+    <li>Famous London galleries: National Gallery, Tate Britain, Tate Modern</li>
+    <li><strong>Turner Prize</strong>: annual award for contemporary art at Tate Britain</li>
+  </ul>
+
+  <h3>Architecture</h3>
+  <ul>
+    <li>Gothic style: famous buildings include Houses of Parliament and St Pancras Station</li>
+    <li><strong>Sir Edwin Lutyens</strong>: famous British architect
+      <ul>
+        <li>Designed New Delhi seat in India</li>
+        <li>Designed the Cenotaph in Whitehall, London (war memorial)</li>
+      </ul>
+    </li>
+    <li><strong>Chelsea Flower Show</strong>: showcases garden design from Britain and around the world</li>
+  </ul>
+
+  <h3>Literature</h3>
+  <ul>
+    <li>Several British writers have won the Nobel Prize in Literature</li>
+    <li><strong>Man Booker Prize</strong>: awarded for best fiction novel by author from the Commonwealth, Ireland, or Zimbabwe</li>
+    <li>Key writers: Jane Austen, Charles Dickens, JK Rowling, JRR Tolkien, Sir Arthur Conan Doyle</li>
+    <li>Famous poets: William Blake, Lord Byron, Robert Browning</li>
+  </ul>
+</div>
+
+</main>
+
+<script>
+const lessons = [
+  { short: "2", label: "Values & Principles" },
+  { short: "3", label: "What Is the UK" },
+  { short: "4", label: "Early Britain" },
+  { short: "5", label: "Middle Ages" },
+  { short: "6", label: "Tudors & Stuarts" },
+  { short: "7", label: "Arts & Culture" }
+];
+
+const nav = document.getElementById("nav");
+const panels = document.querySelectorAll(".lesson");
+
+function show(idx) {
+  panels.forEach((p, i) => p.classList.toggle("active", i === idx));
+  document.querySelectorAll("nav button").forEach((b, i) => b.classList.toggle("active", i === idx));
+  history.replaceState(null, "", "#lesson-" + lessons[idx].short);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+lessons.forEach((l, i) => {
+  const btn = document.createElement("button");
+  btn.textContent = l.short + ". " + l.label;
+  btn.addEventListener("click", () => show(i));
+  nav.appendChild(btn);
+});
+
+// Bottom navigation
+panels.forEach((panel, i) => {
+  const wrap = document.createElement("div");
+  wrap.className = "nav-bottom";
+
+  const prev = document.createElement("button");
+  prev.textContent = "\u2190 Previous";
+  prev.disabled = i === 0;
+  prev.addEventListener("click", () => show(i - 1));
+
+  const next = document.createElement("button");
+  next.textContent = "Next \u2192";
+  next.disabled = i === panels.length - 1;
+  next.addEventListener("click", () => show(i + 1));
+
+  wrap.appendChild(prev);
+  wrap.appendChild(next);
+  panel.appendChild(wrap);
+
+  const counter = document.createElement("div");
+  counter.className = "counter";
+  counter.textContent = "Lesson " + lessons[i].short + " of 7";
+  panel.appendChild(counter);
+});
+
+// Init from hash or default to first
+const hash = location.hash.match(/lesson-(\d+)/);
+const startIdx = hash ? lessons.findIndex(l => l.short === hash[1]) : 0;
+show(startIdx >= 0 ? startIdx : 0);
+
+// Keyboard navigation
+document.addEventListener("keydown", (e) => {
+  const current = [...panels].findIndex(p => p.classList.contains("active"));
+  if (e.key === "ArrowLeft" && current > 0) show(current - 1);
+  if (e.key === "ArrowRight" && current < panels.length - 1) show(current + 1);
+});
+</script>
+
+</body>
+</html>
