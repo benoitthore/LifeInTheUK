@@ -89,15 +89,6 @@
   }
   .next-btn:hover { background: var(--red); }
   .next-btn.show { display: block; }
-  .score-bar {
-    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
-    padding: 0.75rem 1rem; background: #f8fafc; border-radius: 8px;
-    font-size: 0.85rem; color: var(--muted);
-  }
-  .progress-track { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.3s ease; width: 0%; }
-  .streak { font-size: 0.8rem; color: var(--muted); }
-  .streak strong { color: var(--red); }
   .filter-bar { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 1rem; }
   .filter-btn {
     padding: 0.3rem 0.7rem; border: 1.5px solid #d1d5db; background: var(--white);
@@ -132,10 +123,6 @@
 
 <main>
   <div class="filter-bar" id="filters"></div>
-  <div class="score-bar" id="scoreBar">
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <span class="streak" id="streakText"></span>
-  </div>
   <div class="card" id="card">
     <span class="lesson-tag" id="lessonTag"></span>
     <div class="question-num" id="questionNum"></div>
@@ -606,8 +593,6 @@ let totalQ = 0;
 let activeFilters = new Set([1,2,3,4,5,6]);
 
 const card = document.getElementById("card");
-const progressFill = document.getElementById("progressFill");
-const streakText = document.getElementById("streakText");
 const filtersDiv = document.getElementById("filters");
 
 function shuffle(arr) {
@@ -645,7 +630,6 @@ function resetQuiz() {
   pool = picked.reverse();
   totalQ = pool.length;
   answered = 0; correct = 0; streak = 0; bestStreak = 0;
-  updateScore();
   buildFilters();
   card.innerHTML = '<span class="lesson-tag" id="lessonTag"></span>' +
     '<div class="question-num" id="questionNum"></div>' +
@@ -655,13 +639,6 @@ function resetQuiz() {
     '<button class="next-btn" id="nextBtn">Next Question</button>';
   document.getElementById("nextBtn").addEventListener("click", showNext);
   showNext();
-}
-
-function updateScore() {
-  const pct = answered > 0 ? (correct / answered * 100) : 0;
-  progressFill.style.width = pct + "%";
-  progressFill.style.background = pct >= 70 ? "var(--green)" : pct >= 40 ? "#f59e0b" : "var(--red)";
-  streakText.innerHTML = streak >= 3 ? "<strong>" + streak + "</strong> streak" : "";
 }
 
 function showNext() {
@@ -707,7 +684,6 @@ function handleAnswer(chosen, btn) {
     fb.className = "feedback wrong show";
     fb.innerHTML = "The correct answer is: " + current.correct + link;
   }
-  updateScore();
   document.getElementById("nextBtn").classList.add("show");
 }
 
