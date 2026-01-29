@@ -204,9 +204,9 @@
 
 <main id="main">
 
-<!-- LESSON 2 -->
+<!-- LESSON 1 -->
 <div class="lesson" data-lesson="0">
-  <h2>Lesson 2 &mdash; Values and Principles of the UK</h2>
+  <h2>Lesson 1 &mdash; Values and Principles of the UK</h2>
 
   <h3>Fundamental Principles of British Life</h3>
   <ul>
@@ -228,9 +228,9 @@
   <div class="note">Questions on this section are straightforward &mdash; the correct answer is usually the most obvious / common-sense option among the multiple choices.</div>
 </div>
 
-<!-- LESSON 3 -->
+<!-- LESSON 2 -->
 <div class="lesson" data-lesson="1">
-  <h2>Lesson 3 &mdash; What Is the UK</h2>
+  <h2>Lesson 2 &mdash; What Is the UK</h2>
 
   <h3>The United Kingdom</h3>
   <ul>
@@ -255,9 +255,9 @@
   <div class="key-point">Crown dependencies and British overseas territories are NOT part of the UK.</div>
 </div>
 
-<!-- LESSON 4 -->
+<!-- LESSON 3 -->
 <div class="lesson" data-lesson="2">
-  <h2>Lesson 4 &mdash; Early Britain</h2>
+  <h2>Lesson 3 &mdash; Early Britain</h2>
 
   <h3>Stone Age</h3>
   <ul>
@@ -341,9 +341,9 @@
   </ul>
 </div>
 
-<!-- LESSON 5 -->
+<!-- LESSON 4 -->
 <div class="lesson" data-lesson="3">
-  <h2>Lesson 5 &mdash; The Middle Ages</h2>
+  <h2>Lesson 4 &mdash; The Middle Ages</h2>
 
   <h3>Wars and Conflicts</h3>
   <ul>
@@ -405,9 +405,9 @@
   </ul>
 </div>
 
-<!-- LESSON 6 -->
+<!-- LESSON 5 -->
 <div class="lesson" data-lesson="4">
-  <h2>Lesson 6 &mdash; The Tudors and Stuarts</h2>
+  <h2>Lesson 5 &mdash; The Tudors and Stuarts</h2>
 
   <h3>Wars of the Roses (1455&ndash;1485)</h3>
   <ul>
@@ -554,9 +554,9 @@
   </ul>
 </div>
 
-<!-- LESSON 7 -->
+<!-- LESSON 6 -->
 <div class="lesson" data-lesson="5">
-  <h2>Lesson 7 &mdash; Arts and Culture</h2>
+  <h2>Lesson 6 &mdash; Arts and Culture</h2>
 
   <h3>Music</h3>
   <ul>
@@ -606,12 +606,12 @@
 
 <script>
 const lessons = [
-  { short: "2", label: "Values & Principles" },
-  { short: "3", label: "What Is the UK" },
-  { short: "4", label: "Early Britain" },
-  { short: "5", label: "Middle Ages" },
-  { short: "6", label: "Tudors & Stuarts" },
-  { short: "7", label: "Arts & Culture" }
+  { short: "1", label: "Values & Principles" },
+  { short: "2", label: "What Is the UK" },
+  { short: "3", label: "Early Britain" },
+  { short: "4", label: "Middle Ages" },
+  { short: "5", label: "Tudors & Stuarts" },
+  { short: "6", label: "Arts & Culture" }
 ];
 
 const nav = document.getElementById("nav");
@@ -652,7 +652,7 @@ panels.forEach((panel, i) => {
 
   const counter = document.createElement("div");
   counter.className = "counter";
-  counter.textContent = "Lesson " + lessons[i].short + " of 7";
+  counter.textContent = "Lesson " + lessons[i].short + " of 6";
   panel.appendChild(counter);
 });
 
