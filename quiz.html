@@ -94,7 +94,6 @@
     padding: 0.75rem 1rem; background: #f8fafc; border-radius: 8px;
     font-size: 0.85rem; color: var(--muted);
   }
-  .score-bar .score { font-weight: 700; color: var(--navy); font-size: 1rem; }
   .progress-track { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.3s ease; width: 0%; }
   .streak { font-size: 0.8rem; color: var(--muted); }
@@ -134,7 +133,6 @@
 <main>
   <div class="filter-bar" id="filters"></div>
   <div class="score-bar" id="scoreBar">
-    <span class="score" id="scoreText">0 / 0</span>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     <span class="streak" id="streakText"></span>
   </div>
@@ -608,7 +606,6 @@ let totalQ = 0;
 let activeFilters = new Set([1,2,3,4,5,6]);
 
 const card = document.getElementById("card");
-const scoreText = document.getElementById("scoreText");
 const progressFill = document.getElementById("progressFill");
 const streakText = document.getElementById("streakText");
 const filtersDiv = document.getElementById("filters");
@@ -631,8 +628,7 @@ function buildFilters() {
   for (let i = 1; i <= 6; i++) {
     const btn = document.createElement("button");
     btn.className = "filter-btn" + (activeFilters.has(i) && activeFilters.size < 6 ? " active" : "");
-    btn.textContent = "L" + i;
-    btn.title = lessonNames[i];
+    btn.textContent = lessonNames[i];
     btn.addEventListener("click", () => {
       if (activeFilters.size === 6) activeFilters = new Set([i]);
       else if (activeFilters.has(i) && activeFilters.size > 1) activeFilters.delete(i);
@@ -662,7 +658,6 @@ function resetQuiz() {
 }
 
 function updateScore() {
-  scoreText.textContent = correct + " / " + answered;
   const pct = answered > 0 ? (correct / answered * 100) : 0;
   progressFill.style.width = pct + "%";
   progressFill.style.background = pct >= 70 ? "var(--green)" : pct >= 40 ? "#f59e0b" : "var(--red)";
